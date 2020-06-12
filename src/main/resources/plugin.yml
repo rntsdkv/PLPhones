@@ -3,3 +3,9 @@ main: ru.prisonlife.plphones.ru.prisonlife.plphones.Main
 version: v1.0
 author: rntsdkv
 description: Plugin for phones on the server
+
+commands:
+  sms:
+    description: Send SMS to player
+    permission: plphones.sms
+    usage: /sms <phone_number> <message>
