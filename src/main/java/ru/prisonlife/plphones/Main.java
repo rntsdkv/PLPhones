@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class Main extends PLPlugin {
     }
 
     public void onCreate() {
+        copyConfigFile();
         String itemName = ChatColor.GRAY + "Телефон";
         List<String> itemLore = new ArrayList<String>();
         itemLore.add(ChatColor.AQUA + "" + ChatColor.BOLD + "Новый телефончик, хоть и собранный из ошмётков, сделает тебя авторитетом среди заключенных!");
@@ -31,6 +33,15 @@ public class Main extends PLPlugin {
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
         new PhoneCraft(this);
+    }
+
+    private void copyConfigFile() {
+        File config = new File(getDataFolder() + File.separator + "config.yml");
+        if (!config.exists()) {
+            getLogger().info("PLPhones | Default Config copying...");
+            getConfig().options().copyDefaults(true);
+            saveDefaultConfig();
+        }
     }
 
     private ItemStack newCraft(Material id, String name, List<String> lore) {
