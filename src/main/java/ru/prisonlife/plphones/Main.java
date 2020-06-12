@@ -56,4 +56,8 @@ public class Main extends PLPlugin {
         shapedRecipe.setIngredient('B', Material.BEDROCK);
         shapedRecipe.setIngredient('C', Material.ANVIL);
         shapedRecipe.setIngredient('D', Material.EGG);
-        r
+        return shapedRecipe;
+    }
+
+
+}
