@@ -30,6 +30,7 @@ public class Main extends PLPlugin {
         ItemStack itemPhone = newCraft(Material.DIAMOND_AXE, itemName, itemLore);
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
+        new PhoneCraft(this);
     }
 
     private ItemStack newCraft(Material id, String name, List<String> lore) {
@@ -59,5 +60,8 @@ public class Main extends PLPlugin {
         return shapedRecipe;
     }
 
+    public static String colorize(String text) {
+        return ChatColor.translateAlternateColorCodes('&', text);
+    }
 
 }
