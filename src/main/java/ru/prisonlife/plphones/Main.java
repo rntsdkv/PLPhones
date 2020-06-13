@@ -6,8 +6,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
-import ru.prisonlife.plphones.commands.PhoneSMS;
+import ru.prisonlife.plphones.commands.CommandPhone;
+import ru.prisonlife.plphones.commands.CommandSMS;
 import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
 
@@ -34,7 +34,8 @@ public class Main extends PLPlugin {
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
         new PhoneCraft(this);
-        new PhoneSMS(this);
+        new CommandSMS(this);
+        new CommandPhone(this);
     }
 
     private void copyConfigFile() {

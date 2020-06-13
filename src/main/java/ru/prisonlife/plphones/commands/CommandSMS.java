@@ -8,11 +8,11 @@ import ru.prisonlife.plphones.Main;
 
 import static ru.prisonlife.plphones.Main.colorize;
 
-public class PhoneSMS implements CommandExecutor {
+public class CommandSMS implements CommandExecutor {
 
     private Main plugin;
 
-    public PhoneSMS(Main main) {
+    public CommandSMS(Main main) {
         this.plugin = main;
         plugin.getCommand("sms").setExecutor(this);
     }
@@ -77,7 +77,9 @@ public class PhoneSMS implements CommandExecutor {
 
     private boolean checkBalance(Player player) {
         // сделать проверку баланса телефона(бд)
-        if (true) {
+        Integer moneyOnBalance;
+        Integer messagePrice = Integer.parseInt(plugin.getConfig().getString("settings.messagePrice"));
+        if (moneyOnBalance >= messagePrice) {
             return true;
         }
         return false;

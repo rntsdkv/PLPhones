@@ -5,3 +5,5 @@ messages:
   noNumber: "&l&6Такого номера не существует!"
   notEnoughMoney: "&l&6У вас недостаточно средств на телефоне!\nПополните его счет командой /phone pay"
   notEnoughArguments: "&l&6Недостаточно аргументов!"
+settings:
+  messagePrice: 1
