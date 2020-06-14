@@ -60,6 +60,8 @@ public class CommandSMS implements CommandExecutor {
             return true;
         }
 
+        senderPrisoner.setPhoneMoney(senderPrisoner.getPhoneMoney() - Integer.parseInt(plugin.getConfig().getString("settings.messagePrice")));
+
         senderPlayer.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + addresseePlayer.getName() + addresseePhoneNumber.toString()));
         addresseePlayer.sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + senderPlayer.getName() + playerPhoneNumber.toString()));
 
@@ -70,9 +72,7 @@ public class CommandSMS implements CommandExecutor {
         // сделать проверку баланса телефона(бд)
         Integer moneyOnBalance = prisoner.getPhoneMoney();
         Integer messagePrice = Integer.parseInt(plugin.getConfig().getString("settings.messagePrice"));
-        if (moneyOnBalance >= messagePrice) {
-            return true;
-        }
+        if (moneyOnBalance >= messagePrice) return true;
         return false;
     }
 
