@@ -5,7 +5,7 @@
 <modelVersion>4.0.0</modelVersion>
 
 <groupId>ru.prisonlife</groupId>
-<artifactId>plpickup</artifactId>
+<artifactId>plphones</artifactId>
 <version>1.0</version>
 
 <properties>
