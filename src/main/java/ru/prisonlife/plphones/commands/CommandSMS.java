@@ -1,16 +1,21 @@
 package ru.prisonlife.plphones.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import ru.prisonlife.PrisonLife;
+import ru.prisonlife.Prisoner;
+import ru.prisonlife.core.CorePrisoner;
 import ru.prisonlife.plphones.Main;
+import ru.prisonlife.plugin.PLPlugin;
 
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class CommandSMS implements CommandExecutor {
 
-    private Main plugin;
+    private PLPlugin plugin;
 
     public CommandSMS(Main main) {
         this.plugin = main;
@@ -23,61 +28,47 @@ public class CommandSMS implements CommandExecutor {
             return true;
         }
 
-        Player player = (Player) commandSender;
+        Prisoner senderPrisoner = (Prisoner) commandSender;
+        Player senderPlayer = (Player) commandSender;
 
-        Integer playerPhoneNumber = checkPhoneByPlayer(player);
+        Integer playerPhoneNumber = senderPrisoner.getPhoneNumber();
 
-        if (playerPhoneNumber == null) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.noPhone")));
+        if (!senderPrisoner.hasPhone()) {
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.noPhone")));
             return true;
         }
 
         if (strings.length < 1) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
             return false;
         }
 
-        Integer phoneNumber = Integer.parseInt(strings[0]);
+        Integer addresseePhoneNumber = Integer.parseInt(strings[0]);
 
-        Player addressee = checkPhoneByNumber(phoneNumber);
+        Prisoner addresseePrisoner = (Prisoner) PrisonLife.getPrisoner(addresseePhoneNumber);
+        Player addresseePlayer = (Player) Bukkit.getPlayer(addresseePrisoner.getName());
 
-        if (addressee == null) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.noNumber")));
+        if (addresseePlayer == null) {
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.noNumber")));
             return true;
         }
 
         String message = getMessage(strings);
 
-        if (!checkBalance(player)) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughMoney")));
+        if (!checkBalance(senderPrisoner)) {
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughMoney")));
             return true;
         }
 
-        player.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + addressee.getName() + phoneNumber.toString()));
-        addressee.sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + player.getName() + playerPhoneNumber.toString()));
+        senderPlayer.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + addresseePlayer.getName() + addresseePhoneNumber.toString()));
+        addresseePlayer.sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + senderPlayer.getName() + playerPhoneNumber.toString()));
 
         return true;
     }
 
-    private Integer checkPhoneByPlayer(Player player) {
-        // сделать проверку наличия телефона(бд)
-        if (true) {
-            return phoneNumber;
-        }
-        return null;
-    }
-
-    private Player checkPhoneByNumber(Integer phoneNumber) {
-        // сделать проверку наличия телефона(бд)
-        if (true) {
-            return PlayerName;
-        }
-        return null;
-    }
-
-    private boolean checkBalance(Player player) {
+    private boolean checkBalance(Prisoner prisoner) {
         // сделать проверку баланса телефона(бд)
-        Integer moneyOnBalance;
+        Integer moneyOnBalance = prisoner.getPhoneMoney();
         Integer messagePrice = Integer.parseInt(plugin.getConfig().getString("settings.messagePrice"));
         if (moneyOnBalance >= messagePrice) {
             return true;
