@@ -42,6 +42,11 @@ public class CommandSuperSIM implements CommandExecutor {
             return true;
         }
 
+        if (!prisoner.hasPhone()) {
+            commandSender.sendMessage("Player have not got a phone!");
+            return true;
+        }
+
         Integer prisonerPhoneNumber = 0;
         Integer min = 1_000;
         Integer max = 9_999;

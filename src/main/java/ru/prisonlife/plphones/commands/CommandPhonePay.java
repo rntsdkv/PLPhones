@@ -4,19 +4,18 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import ru.prisonlife.Prisoner;
 import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
 
 import static ru.prisonlife.plphones.Main.colorize;
 
-public class CommandPhone implements CommandExecutor {
+public class CommandPhonePay implements CommandExecutor {
 
     private PLPlugin plugin;
 
-    public CommandPhone(Main main) {
+    public CommandPhonePay(Main main) {
         this.plugin = main;
-        plugin.getCommand("phone").setExecutor(this);
+        plugin.getCommand("phone pay").setExecutor(this);
     }
 
     @Override
@@ -26,17 +25,8 @@ public class CommandPhone implements CommandExecutor {
         }
 
         Player senderPlayer = (Player) commandSender;
-        Prisoner senderPrisoner = (Prisoner) commandSender;
 
-        if (!senderPrisoner.hasPhone()) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notPhone")));
-            return true;
-        }
-
-        String phoneNumber = senderPrisoner.getPhoneNumber().toString();
-        String moneyOnBalance = senderPrisoner.getPhoneMoney().toString();
-
-        senderPlayer.sendMessage(colorize("&l&9Информация о телефоне:\n&3Номер: &b" + phoneNumber + "\n&3Остаток на балансе: &b" + moneyOnBalance));
+        // TODO сделать дальше...........
         return true;
     }
 }

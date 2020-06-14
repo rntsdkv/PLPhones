@@ -33,7 +33,7 @@ public class CommandSMS implements CommandExecutor {
         Integer playerPhoneNumber = senderPrisoner.getPhoneNumber();
 
         if (!senderPrisoner.hasPhone()) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.noPhone")));
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notPhone")));
             return true;
         }
 
@@ -48,7 +48,7 @@ public class CommandSMS implements CommandExecutor {
         Player addresseePlayer = (Player) Bukkit.getPlayer(addresseePrisoner.getName());
 
         if (addresseePlayer == null) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.noNumber")));
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notNumber")));
             return true;
         }
 
