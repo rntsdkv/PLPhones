@@ -1,5 +1,5 @@
 name: PLPhones
-main: ru.prisonlife.plphones.ru.prisonlife.plphones.Main
+main: ru.prisonlife.plphones.Main
 version: v1.0
 author: rntsdkv
 description: Plugin for phones on the server

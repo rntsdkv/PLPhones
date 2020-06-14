@@ -1,29 +1,32 @@
 package ru.prisonlife.plphones;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
+import ru.prisonlife.entity.PhoneEntity;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.plugin.PLPlugin;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class PhoneCraft implements Listener {
 
-    private PLPlugin plugin;
+    private final PLPlugin plugin;
 
-    public PhoneCraft(Main main) {
+    public PhoneCraft(PLPlugin main) {
         this.plugin = main;
         plugin.getServer().getPluginManager().registerEvents(this, (Plugin) this);
     }
@@ -31,47 +34,57 @@ public class PhoneCraft implements Listener {
     @EventHandler
     public void onCraft(CraftItemEvent event) {
         if (checkForPhone(event.getInventory())) {
-
             Player player = (Player) event.getWhoClicked();
             Prisoner prisoner = (Prisoner) player;
 
             if (prisoner.hasPhone()) {
-
                 player.sendMessage(colorize(plugin.getConfig().getString("messages.alreadyCraftedPhone")));
-
-            } else {
-
-                Integer prisonerPhoneNumber = 0;
-                Integer min = 100_000;
-                Integer max = 999_999;
-                Integer diff = max - min;
-                Random random = new Random();
-                while (prisonerPhoneNumber == 0) {
-                    prisonerPhoneNumber = random.nextInt(diff + 1) + min;
-                    Player prisonerCheck = (Player) PrisonLife.getPrisoner(prisonerPhoneNumber).getPlayer();
-                    if (prisonerCheck != null) {
-                        prisonerPhoneNumber = 0;
-                    }
-                }
-                prisoner.setPhoneNumber(prisonerPhoneNumber);
+            }
+            else {
+                prisoner.setPhoneNumber(generatePhoneNumber());
                 player.sendMessage(colorize(plugin.getConfig().getString("messages.craftPhone")));
-
             }
 
-            removePhone(player);
+            clearPhoneAtInventory(player);
         }
 
     }
 
     private boolean checkForPhone(Inventory inventory) {
-        if (inventory.contains(new ItemStack(PrisonItem.PHONE)) {
-            return true;
+        return Optional.ofNullable(getPhoneFromInventory(inventory)).isPresent();
+    }
+
+    private int generatePhoneNumber() {
+        Random random = new Random();
+        List<Integer> phoneNumbers = PrisonLife.getPhones().stream().map(PhoneEntity::getPhone).collect(Collectors.toList());
+        int phoneNumber;
+        int min = 100_000;
+        int max = 999_999;
+        int diff = max - min + 1;
+
+        do {
+            phoneNumber = random.nextInt(diff) + min;
+        } while (phoneNumbers.contains(phoneNumber));
+
+        return phoneNumber;
+    }
+
+    private void clearPhoneAtInventory(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        Integer phoneSlot = getPhoneFromInventory(inventory);
+        if (Optional.ofNullable(phoneSlot).isPresent()) inventory.setItem(phoneSlot, null);
+    }
+
+    private Integer getPhoneFromInventory(Inventory inventory) {
+        int size = inventory.getSize();
+
+        for (int i = 0; i < size; i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item == null) continue;
+            ItemMeta meta = item.getItemMeta();
+            if (meta != null && meta.getLocalizedName().equals(PrisonItem.PHONE.getNamespace())) return i;
         }
-        return false;
-    }
 
-    private void removePhone(Player player) {
-        player.getInventory().remove(new ItemStack(PrisonItem.PHONE));
+        return null;
     }
-
 }
