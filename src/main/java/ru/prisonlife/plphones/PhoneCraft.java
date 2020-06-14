@@ -42,14 +42,13 @@ public class PhoneCraft implements Listener {
             } else {
 
                 Integer prisonerPhoneNumber = 0;
-                // TODO донат-возможность: 4значный номер телефона, маршалл
                 Integer min = 100_000;
                 Integer max = 999_999;
                 Integer diff = max - min;
                 Random random = new Random();
                 while (prisonerPhoneNumber == 0) {
                     prisonerPhoneNumber = random.nextInt(diff + 1) + min;
-                    Player prisonerCheck = (Player) Bukkit.getPlayer(PrisonLife.getPrisoner(prisonerPhoneNumber).getName());
+                    Player prisonerCheck = (Player) PrisonLife.getPrisoner(prisonerPhoneNumber).getPlayer();
                     if (prisonerCheck != null) {
                         prisonerPhoneNumber = 0;
                     }

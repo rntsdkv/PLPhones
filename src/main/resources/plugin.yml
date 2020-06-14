@@ -9,3 +9,15 @@ commands:
     description: Send SMS to player
     permission: plphones.sms
     usage: /sms <phone_number> <message>
+  phone:
+    description: Get information about SIM
+    permission: plphones.phone.info
+    usage: /phone
+  sellsim:
+    description: Sell your SIM to player
+    permission: plphones.sellsim
+    usage: /sellsim <player> <sum>
+  phone pay:
+    description: Put money on your SIM
+    permission: plphones.phone.pay
+    usage: /phone pay

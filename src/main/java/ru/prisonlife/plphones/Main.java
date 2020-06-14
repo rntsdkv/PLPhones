@@ -6,8 +6,13 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import ru.prisonlife.PrisonLife;
+import ru.prisonlife.Prisoner;
+import ru.prisonlife.item.PrisonItem;
+import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.commands.CommandPhone;
 import ru.prisonlife.plphones.commands.CommandSMS;
+import ru.prisonlife.plphones.commands.CommandSuperSIM;
 import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
 
@@ -27,15 +32,13 @@ public class Main extends PLPlugin {
 
     public void onCreate() {
         copyConfigFile();
-        String itemName = ChatColor.GRAY + "Телефон";
-        List<String> itemLore = new ArrayList<String>();
-        itemLore.add(ChatColor.AQUA + "" + ChatColor.BOLD + "Новый телефончик, хоть и собранный из ошмётков, сделает тебя авторитетом среди заключенных!");
-        ItemStack itemPhone = newCraft(Material.DIAMOND_AXE, itemName, itemLore);
+        PrisonItemFactory.createItem(null, PrisonItem.PHONE);
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
         new PhoneCraft(this);
         new CommandSMS(this);
         new CommandPhone(this);
+        new CommandSuperSIM(this);
     }
 
     private void copyConfigFile() {
@@ -45,15 +48,6 @@ public class Main extends PLPlugin {
             getConfig().options().copyDefaults(true);
             saveDefaultConfig();
         }
-    }
-
-    private ItemStack newCraft(Material id, String name, List<String> lore) {
-        ItemStack itemPhone = new ItemStack(id);
-        ItemMeta metaPhone = itemPhone.getItemMeta();
-        metaPhone.setDisplayName(name);
-        metaPhone.setLore(lore);
-        itemPhone.setItemMeta(metaPhone);
-        return itemPhone;
     }
 
     private ShapedRecipe setCraft(ItemStack item) {

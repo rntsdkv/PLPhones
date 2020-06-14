@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
-import ru.prisonlife.core.CorePrisoner;
 import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
 
@@ -65,6 +64,7 @@ public class CommandSMS implements CommandExecutor {
         senderPlayer.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + addresseePlayer.getName() + addresseePhoneNumber.toString()));
         addresseePlayer.sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + senderPlayer.getName() + playerPhoneNumber.toString()));
 
+
         return true;
     }
 
@@ -74,6 +74,16 @@ public class CommandSMS implements CommandExecutor {
         Integer messagePrice = Integer.parseInt(plugin.getConfig().getString("settings.messagePrice"));
         if (moneyOnBalance >= messagePrice) return true;
         return false;
+    }
+
+    private void moneyIsRunningOut(Prisoner prisoner) {
+        Integer moneyOnBalance = prisoner.getPhoneMoney();
+        Integer messagePrice = Integer.parseInt(plugin.getConfig().getString("settings.messagePrice"));
+        if (moneyOnBalance < messagePrice) {
+            Player player = (Player) Bukkit.getPlayer(prisoner.getName());
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.moneyIsRunningOut")));
+            player.sendMessage(colorize("&l&6Остаток на балансе: " + moneyOnBalance.toString() + "$"));
+        }
     }
 
     private String getMessage(String[] strings) {
