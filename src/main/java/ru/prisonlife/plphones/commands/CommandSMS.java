@@ -16,7 +16,7 @@ public class CommandSMS implements CommandExecutor {
 
     private PLPlugin plugin;
 
-    public CommandSMS(Main main) {
+    public CommandSMS(PLPlugin main) {
         this.plugin = main;
         plugin.getCommand("sms").setExecutor(this);
     }

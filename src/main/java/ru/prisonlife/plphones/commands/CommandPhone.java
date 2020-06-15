@@ -14,7 +14,7 @@ public class CommandPhone implements CommandExecutor {
 
     private PLPlugin plugin;
 
-    public CommandPhone(Main main) {
+    public CommandPhone(PLPlugin main) {
         this.plugin = main;
         plugin.getCommand("phone").setExecutor(this);
     }

@@ -16,7 +16,7 @@ public class CommandSellSIM implements CommandExecutor {
 
     private PLPlugin plugin;
 
-    public CommandSellSIM(Main main) {
+    public CommandSellSIM(PLPlugin main) {
         this.plugin = main;
         plugin.getCommand("sellsim").setExecutor(this);
     }
@@ -43,7 +43,7 @@ public class CommandSellSIM implements CommandExecutor {
             return true;
         }
 
-        Integer price;
+        int price;
         try {
             price = Integer.parseInt(strings[1]);
         } catch (NumberFormatException e) {
@@ -51,7 +51,7 @@ public class CommandSellSIM implements CommandExecutor {
             return false;
         }
 
-        addressee.sendMessage(colorize("&l&1Игрок &b" + player.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + price.toString()));
+        addressee.sendMessage(colorize("&l&1Игрок &b" + player.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + Integer.toString(price)));
         // TODO сделать дальше.....................
         return true;
     }

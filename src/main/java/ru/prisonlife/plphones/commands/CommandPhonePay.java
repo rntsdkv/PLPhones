@@ -13,7 +13,7 @@ public class CommandPhonePay implements CommandExecutor {
 
     private PLPlugin plugin;
 
-    public CommandPhonePay(Main main) {
+    public CommandPhonePay(PLPlugin main) {
         this.plugin = main;
         plugin.getCommand("phone pay").setExecutor(this);
     }

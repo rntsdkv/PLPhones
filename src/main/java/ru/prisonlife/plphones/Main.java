@@ -3,20 +3,16 @@ package ru.prisonlife.plphones;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
-import ru.prisonlife.PrisonLife;
-import ru.prisonlife.Prisoner;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.commands.*;
+import ru.prisonlife.plphones.events.PhoneCraft;
 import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends PLPlugin {
@@ -31,7 +27,8 @@ public class Main extends PLPlugin {
 
     public void onCreate() {
         copyConfigFile();
-        ItemStack itemPhone = PrisonItemFactory.createItem(null, PrisonItem.PHONE);
+        PrisonItemFactory.createItem(null, PrisonItem.PHONE);
+        PrisonItem itemPhone = PrisonItem.PHONE;
         ItemStack itemAntenne = PrisonItemFactory.createItem(null, PrisonItem.);
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
@@ -52,9 +49,8 @@ public class Main extends PLPlugin {
         }
     }
 
-    private ShapedRecipe setCraft(ItemStack item, ItemStack antenne, ItemStack korpus, ItemStack battaree, ItemStack SIM) {
-        NamespacedKey key = new NamespacedKey(plugin, "sword_of_zeus");
-        ShapedRecipe shapedRecipe = new ShapedRecipe(key, item);
+    private ShapedRecipe setCraft(ItemStack item) {
+        ShapedRecipe shapedRecipe = new ShapedRecipe(item);
         shapedRecipe.shape(new String[] {"ABC", " D "});
         /**
          * На время тестов в качестве:

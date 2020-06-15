@@ -7,10 +7,13 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
+import ru.prisonlife.entity.PhoneEntity;
 import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static ru.prisonlife.plphones.Main.colorize;
 
@@ -18,7 +21,7 @@ public class CommandSuperSIM implements CommandExecutor {
 
     private PLPlugin plugin;
 
-    public CommandSuperSIM(Main main) {
+    public CommandSuperSIM(PLPlugin main) {
         this.plugin = main;
         plugin.getCommand("supersim").setExecutor(this);
     }
@@ -43,29 +46,32 @@ public class CommandSuperSIM implements CommandExecutor {
         }
 
         if (!prisoner.hasPhone()) {
-            commandSender.sendMessage("Player have not got a phone!");
+            commandSender.sendMessage("Player has not got a phone!");
             return true;
         }
 
-        Integer prisonerPhoneNumber = 0;
-        Integer min = 1_000;
-        Integer max = 9_999;
-        Integer diff = max - min;
-        Random random = new Random();
-        while (prisonerPhoneNumber == 0) {
-            prisonerPhoneNumber = random.nextInt(diff + 1) + min;
-            Prisoner prisonerCheck = PrisonLife.getPrisoner(prisonerPhoneNumber);
-            if (prisonerCheck.getPlayer() != null) {
-                prisonerPhoneNumber = 0;
-            }
-        }
+        prisoner.setPhoneNumber(generatePhoneNumber());
 
-        prisoner.setPhoneNumber(prisonerPhoneNumber);
         if (prisoner.isOnline()) {
-            prisoner.getPlayer().sendMessage(colorize(plugin.getConfig().getString("messages.changePhoneNumber") + prisonerPhoneNumber.toString()));
+            prisoner.getPlayer().sendMessage(colorize(plugin.getConfig().getString("messages.changePhoneNumber") + prisoner.getPhoneNumber().toString()));
         }
 
         commandSender.sendMessage("Player's phone number changed!");
         return true;
+    }
+
+    private int generatePhoneNumber() {
+        Random random = new Random();
+        List<Integer> phoneNumbers = PrisonLife.getPhones().stream().map(PhoneEntity::getPhone).collect(Collectors.toList());
+        int phoneNumber;
+        int min = 1000;
+        int max = 9999;
+        int diff = max - min + 1;
+
+        do {
+            phoneNumber = random.nextInt(diff) + min;
+        } while (phoneNumbers.contains(phoneNumber));
+
+        return phoneNumber;
     }
 }
