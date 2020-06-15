@@ -1,18 +1,27 @@
 package ru.prisonlife.plphones.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import ru.prisonlife.PositionManager;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
+import ru.prisonlife.database.json.BoldPoint;
+import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
 
-import static ru.prisonlife.plphones.Main.colorize;
+import java.util.Map;
+import java.util.Random;
+
+import static ru.prisonlife.plphones.Main.*;
 
 public class CommandSMS implements CommandExecutor {
 
+    final Random random = new Random();
     private PLPlugin plugin;
 
     public CommandSMS(PLPlugin main) {
@@ -58,6 +67,16 @@ public class CommandSMS implements CommandExecutor {
             return true;
         }
 
+
+        if (checkHindrance(senderPrisoner.getPoint())) {
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
+            return true;
+        }
+
+        if (newHindrance(senderPlayer.getLocation())) {
+            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
+            return true;
+        }
         senderPrisoner.setPhoneMoney(senderPrisoner.getPhoneMoney() - Integer.parseInt(plugin.getConfig().getString("settings.messagePrice")));
 
         senderPlayer.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + addresseePlayer.getName() + addresseePhoneNumber.toString()));
@@ -93,5 +112,42 @@ public class CommandSMS implements CommandExecutor {
         }
 
         return text.toString();
+    }
+
+    private boolean checkHindrance(BoldPoint playerPoint) {
+        Boolean hindranceExists = false;
+
+        Map<Location, Integer> hindrances = Main.hindrances;
+        for(Location key : hindrances.keySet()) {
+            if (PositionManager.instance().atSector(BoldPoint.fromLocation(key), hindrances.get(key), playerPoint)) {
+                hindranceExists = true;
+                break;
+            }
+        }
+
+        if (hindranceExists) return true;
+        return false;
+    }
+
+    private boolean newHindrance(Location location) {
+        int rand = random.nextInt(100);
+        int radius = random.nextInt(9) + 2;
+
+        if (rand <= Integer.parseInt(plugin.getConfig().getString("settings.hindranceRandom"))) return false;
+
+        hindrances.put(location, radius);
+        setTask(location);
+        return true;
+    }
+
+    private void setTask(Location location) {
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                hindrances.remove(location);
+            }
+
+        }.runTaskLater(this.plugin, 1200);
     }
 }

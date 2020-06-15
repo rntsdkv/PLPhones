@@ -16,6 +16,8 @@ messages:
   moneyIsRunningOut: "&l&6У вас заканчиваются средства на балансе! На следующее сообщение ужене хватит!\nПополните баланс командой /phone pay"
   changePhoneNumber: "&l&9Ваш номер был изменён: &1"
   priceLimit: "&l&6Цена не может быть больше 64 и меньше 0!"
+  shouldGoFuck: "&l&6Похоже, здесь плохая связь, МТС подвёл :(\nПопробуйте отойти в другое место..."
 settings:
   messagePrice: 1
   sellTimeInSec: 30
+  hindranceRandom: 75

@@ -64,6 +64,9 @@ public class CommandAccept implements CommandExecutor {
         PrisonLife.getPrisoner(seller).setPhoneMoney(buyerPhoneMoney);
         PrisonLife.getPrisoner(buyer).setPhoneMoney(sellerPhoneMoney);
 
+        SIMsellers.remove(seller);
+        SIMprices.remove(seller);
+
         return true;
     }
 

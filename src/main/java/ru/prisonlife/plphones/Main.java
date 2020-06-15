@@ -2,6 +2,7 @@ package ru.prisonlife.plphones;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +16,7 @@ import ru.prisonlife.plphones.events.PhoneCraft;
 import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,9 @@ public class Main extends PLPlugin {
 
     public static Map<Player, Player> SIMsellers = new HashMap<>();
     public static Map<Player, Integer> SIMprices = new HashMap<>();
+
+    public static Map<Location, Integer> hindrances = new HashMap<>();
+
 
     public void onCreate() {
         copyConfigFile();
