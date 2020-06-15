@@ -18,3 +18,4 @@ messages:
   priceLimit: "&l&6Цена не может быть больше 64 и меньше 0!"
 settings:
   messagePrice: 1
+  sellTimeInSec: 30

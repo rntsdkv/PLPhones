@@ -108,6 +108,6 @@ public class CommandSellSIM implements CommandExecutor {
                 }
             }
 
-        }.runTaskLater(this.plugin, 1200);
+        }.runTaskLater(this.plugin, Integer.parseInt(plugin.getConfig().getString("settings.sellTimeInSec")) * 20);
     }
 }
