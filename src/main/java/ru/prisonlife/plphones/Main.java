@@ -3,7 +3,9 @@ package ru.prisonlife.plphones;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.item.PrisonItemFactory;
@@ -13,7 +15,10 @@ import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main extends PLPlugin {
 
@@ -25,11 +30,11 @@ public class Main extends PLPlugin {
         return null;
     }
 
+    public static Map<Player, List> SIMsellers = new HashMap<>();
+
     public void onCreate() {
         copyConfigFile();
-        PrisonItemFactory.createItem(null, PrisonItem.PHONE);
-        PrisonItem itemPhone = PrisonItem.PHONE;
-        ItemStack itemAntenne = PrisonItemFactory.createItem(null, PrisonItem.);
+        ItemStack itemPhone = PrisonItemFactory.createItem(null, PrisonItem.PHONE);
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
         new PhoneCraft(this);
@@ -37,7 +42,8 @@ public class Main extends PLPlugin {
         new CommandPhone(this);
         new CommandSuperSIM(this);
         new CommandSellSIM(this);
-        new CommandPhonePay(this);
+        new PayGUI(this);
+        new CommandAccept(this);
     }
 
     private void copyConfigFile() {
@@ -60,6 +66,10 @@ public class Main extends PLPlugin {
          * аккумулятора - наковальня,
          * симки - яйцо(не яйцо спавна, просто яичко)
          */
+        // ItemStack itemAntenna = PrisonItemFactory.createItem(null, PrisonItem.PHONE_ANTENNA);
+        // ItemStack itemBody = PrisonItemFactory.createItem(null, PrisonItem.PHONE_BODY);
+        // ItemStack itemBattery = PrisonItemFactory.createItem(null, PrisonItem.PHONE_BATTERY);
+        // ItemStack itemSIM = PrisonItemFactory.createItem(null, PrisonItem.PHONE_SIM_CARD);
         shapedRecipe.setIngredient('A', Material.CLAY);
         shapedRecipe.setIngredient('B', Material.BEDROCK);
         shapedRecipe.setIngredient('C', Material.ANVIL);

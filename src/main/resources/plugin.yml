@@ -21,3 +21,7 @@ commands:
     description: Put money on your SIM
     permission: plphones.phone.pay
     usage: /phone pay
+  phone accept:
+    description: Special command
+    permission: plphones.phone.accept
+    usage: /phone accept <player>
