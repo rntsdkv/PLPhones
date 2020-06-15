@@ -37,7 +37,7 @@ public class CommandSMS implements CommandExecutor {
             return true;
         }
 
-        if (strings.length < 1) {
+        if (strings.length < 2) {
             senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
             return false;
         }

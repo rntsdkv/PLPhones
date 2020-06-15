@@ -17,9 +17,9 @@ import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static ru.prisonlife.plphones.Main.SIMsellers;
-import static ru.prisonlife.plphones.Main.colorize;
+import static ru.prisonlife.plphones.Main.*;
 
 public class CommandSellSIM implements CommandExecutor {
 
@@ -40,7 +40,7 @@ public class CommandSellSIM implements CommandExecutor {
         Player player = (Player) commandSender;
         Prisoner prisoner = (Prisoner) PrisonLife.getPrisoner(player);
 
-        if (strings.length < 1) {
+        if (strings.length < 2) {
             player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
             return false;
         }
@@ -76,6 +76,11 @@ public class CommandSellSIM implements CommandExecutor {
             return false;
         }
 
+        if (price < 0 || price > 64) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.priceLimit")));
+            return true;
+        }
+
         sendAccept(player, addressee, price);
 
         return true;
@@ -84,10 +89,11 @@ public class CommandSellSIM implements CommandExecutor {
     private void sendAccept(Player seller, Player buyer, Integer price) {
         buyer.sendMessage(colorize("&l&1Игрок &b" + buyer.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + Integer.toString(price)));
         IChatBaseComponent component = IChatBaseComponent.ChatSerializer
-                .a("{\"text\":\"&l&bВам предложили сделку: \", \"extra\":[{\"text\":\"&l&2ПРИНЯТЬ\", \"clickEvent\":{\"action\":\"run_command\", \"value\":\"/phone accept " + seller.getName() + " " + price.toString()"\"}}]}");
+                .a("{\"text\":\"&l&bВам предложили сделку: \", \"extra\":[{\"text\":\"&l&2ПРИНЯТЬ\", \"clickEvent\":{\"action\":\"run_command\", \"value\":\"/phone accept " + seller.getName() + "\"}}]}");
         PacketPlayOutChat packet = new PacketPlayOutChat(component);
         ((CraftPlayer) buyer).getHandle().playerConnection.sendPacket(packet);
-        SIMsellers.put(seller, new ArrayList(buyer, price));
+        SIMsellers.put(seller, buyer);
+        SIMprices.put(seller, price);
         setTask(seller);
     }
 
@@ -98,6 +104,7 @@ public class CommandSellSIM implements CommandExecutor {
             public void run() {
                 if (SIMsellers.containsKey(seller)) {
                     SIMsellers.remove(seller);
+                    SIMprices.remove(seller);
                 }
             }
 

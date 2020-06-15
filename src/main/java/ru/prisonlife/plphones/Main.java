@@ -30,7 +30,8 @@ public class Main extends PLPlugin {
         return null;
     }
 
-    public static Map<Player, List> SIMsellers = new HashMap<>();
+    public static Map<Player, Player> SIMsellers = new HashMap<>();
+    public static Map<Player, Integer> SIMprices = new HashMap<>();
 
     public void onCreate() {
         copyConfigFile();
