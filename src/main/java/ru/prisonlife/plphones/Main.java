@@ -10,6 +10,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.commands.*;
+import ru.prisonlife.plphones.events.PayGUIClick;
+import ru.prisonlife.plphones.events.PayGUIClose;
 import ru.prisonlife.plphones.events.PhoneCraft;
 import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
@@ -43,7 +45,9 @@ public class Main extends PLPlugin {
         new CommandPhone(this);
         new CommandSuperSIM(this);
         new CommandSellSIM(this);
-        new PayGUI(this);
+        new CommandPhonePay(this);
+        new PayGUIClick(this);
+        new PayGUIClose(this);
         new CommandAccept(this);
     }
 
