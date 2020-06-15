@@ -26,16 +26,20 @@ public class PayGUIClick implements Listener {
         if (event.getView().getTitle().equals(ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник")) {
 
             int slotsCount = event.getInventory().getSize();
-            ItemStack money1 = PrisonItemFactory.createItem(null, PrisonItem.PRISON_MONEY);
-            ItemStack money10 = PrisonItemFactory.createItem(null, PrisonItem.PRISON_MONEY_TEN);
-            ItemStack money50 = PrisonItemFactory.createItem(null, PrisonItem.PRISON_MONEY_FIFTY);
-            ItemStack money100 = PrisonItemFactory.createItem(null, PrisonItem.CIGARETTE_HUNDRED);
+            String money1 = PrisonItem.DOLLAR_ONE.getNamespace();
+            String money2 = PrisonItem.DOLLAR_TWO.getNamespace();
+            String money5 = PrisonItem.DOLLAR_FIVE.getNamespace();
+            String money10 = PrisonItem.DOLLAR_TEN.getNamespace();
+            String money20 = PrisonItem.DOLLAR_TWENTY.getNamespace();
+            String money50 = PrisonItem.DOLLAR_FIFTY.getNamespace();
+            String money100 = PrisonItem.DOLLAR_HUNDRED.getNamespace();
 
             for (int i = 0; i < slotsCount; i++) {
 
                 ItemStack item = event.getView().getItem(i);
+                String itemName = event.getView().getItem(i).getItemMeta().getLocalizedName();
 
-                if (!item.equals(money1) && !item.equals(money10) && !item.equals(money50) && !item.equals(money100)) {
+                if (!itemName.equals(money1) && !itemName.equals(money2) && !itemName.equals(money5) && !itemName.equals(money10) && !itemName.equals(money20) && !itemName.equals(money50) && !itemName.equals(money100)) {
 
                     event.getView().setItem(i, null);
                     player.getInventory().addItem(new ItemStack(item.getType(), item.getAmount()));
