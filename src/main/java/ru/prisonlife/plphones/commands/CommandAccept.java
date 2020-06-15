@@ -6,7 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.prisonlife.PrisonLife;
-import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
 
 import static ru.prisonlife.plphones.Main.*;

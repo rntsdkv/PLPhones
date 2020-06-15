@@ -12,7 +12,6 @@ import ru.prisonlife.Prisoner;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plugin.PLPlugin;
-
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class PayGUIClose implements Listener {

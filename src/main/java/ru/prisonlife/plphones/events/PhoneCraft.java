@@ -14,12 +14,10 @@ import ru.prisonlife.Prisoner;
 import ru.prisonlife.entity.PhoneEntity;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.plugin.PLPlugin;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
-
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class PhoneCraft implements Listener {

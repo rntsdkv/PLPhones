@@ -7,17 +7,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.EulerAngle;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
-import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static ru.prisonlife.plphones.Main.*;
 

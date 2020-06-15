@@ -4,17 +4,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
 import ru.prisonlife.entity.PhoneEntity;
-import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
-
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class CommandSuperSIM implements CommandExecutor {
