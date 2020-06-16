@@ -36,8 +36,10 @@ public class Main extends PLPlugin {
     public static Map<Player, Player> SIMsellers = new HashMap<>();
     public static Map<Player, Integer> SIMprices = new HashMap<>();
 
-    public static List<Location> hindrancesLocations = new ArrayList<>();
-    public static Map<Location, Integer> hindrances = new HashMap<>();
+    public static Map<Location, Player> hindrancesPlayers = new HashMap<>();
+    public static Map<Location, Integer> hindrancesRadius = new HashMap<>();
+    public static Map<Location, Integer> hindrancesSeconds = new HashMap<>();
+
 
     public static BukkitTask task = null;
 

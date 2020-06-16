@@ -14,6 +14,7 @@ import ru.prisonlife.PositionManager;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
 import ru.prisonlife.database.json.BoldPoint;
+import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
 
@@ -71,12 +72,12 @@ public class CommandSMS implements CommandExecutor {
         }
 
 
-        if (checkHindrance(senderPrisoner.getPoint())) {
+        if (checkHindrance(senderPlayer)) {
             senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
             return true;
         }
 
-        if (newHindrance(senderPlayer.getLocation())) {
+        if (newHindrance(senderPlayer)) {
             senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
             return true;
         }
@@ -97,16 +98,6 @@ public class CommandSMS implements CommandExecutor {
         return false;
     }
 
-    private void moneyIsRunningOut(Prisoner prisoner) {
-        Integer moneyOnBalance = prisoner.getPhoneMoney();
-        Integer messagePrice = Integer.parseInt(plugin.getConfig().getString("settings.messagePrice"));
-        if (moneyOnBalance < messagePrice) {
-            Player player = (Player) Bukkit.getPlayer(prisoner.getName());
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.moneyIsRunningOut")));
-            player.sendMessage(colorize("&l&6Остаток на балансе: " + moneyOnBalance.toString() + "$"));
-        }
-    }
-
     private String getMessage(String[] strings) {
         StringBuilder text = new StringBuilder();
 
@@ -117,12 +108,14 @@ public class CommandSMS implements CommandExecutor {
         return text.toString();
     }
 
-    private boolean checkHindrance(BoldPoint playerPoint) {
+    private boolean checkHindrance(Player player) {
         Boolean hindranceExists = false;
 
-        Map<Location, Integer> hindrances = Main.hindrances;
-        for(Location key : hindrances.keySet()) {
-            if (PositionManager.instance().atSector(BoldPoint.fromLocation(key), hindrances.get(key), playerPoint)) {
+        for(Location key : hindrancesPlayers.keySet()) {
+            if (hindrancesPlayers.get(key) != player) {
+                continue;
+            }
+            if (PositionManager.instance().atSector(BoldPoint.fromLocation(key), hindrancesRadius.get(key), PrisonLife.getPrisoner(player).getPoint())) {
                 hindranceExists = true;
                 break;
             }
@@ -132,14 +125,15 @@ public class CommandSMS implements CommandExecutor {
         return false;
     }
 
-    private boolean newHindrance(Location location) {
+    private boolean newHindrance(Player player) {
         int rand = random.nextInt(100);
         int radius = random.nextInt(9) + 2;
 
         if (rand <= Integer.parseInt(plugin.getConfig().getString("settings.hindranceRandom"))) return false;
 
-        hindrances.put(location, radius);
-        hindrancesLocations.add(location);
+        hindrancesPlayers.put(player.getLocation(), player);
+        hindrancesRadius.put(player.getLocation(), radius);
+        hindrancesSeconds.put(player.getLocation(), 0);
 
         taskManager();
 
@@ -152,13 +146,19 @@ public class CommandSMS implements CommandExecutor {
             task = Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    hindrances.remove(hindrancesLocations.get(0));
-                    hindrancesLocations.remove(0);
+                    for (Location key : hindrancesPlayers.keySet()) {
+                        hindrancesSeconds.replace(key, hindrancesSeconds.get(key) + 1);
+                        if ((hindrancesSeconds.get(key)) > 60) {
+                            hindrancesPlayers.remove(key);
+                            hindrancesRadius.remove(key);
+                            hindrancesSeconds.remove(key);
+                        }
+                    }
                 }
-            }, 1200, 1200);
+            }, 20, 20);
         }
 
-        if (!hindrances.isEmpty()) {
+        if (!hindrancesPlayers.isEmpty()) {
             task.cancel();
             task = null;
         }
