@@ -25,7 +25,7 @@ public class PayGUIClose implements Listener {
 
     @EventHandler
     public void onClosed(InventoryCloseEvent event) {
-        Prisoner prisoner = PrisonLife.getPrisoner(event.getPlayer());
+        Prisoner prisoner = PrisonLife.getPrisoner((Player) event.getPlayer());
         // int prisonerMoney = prisoner.getPhoneMoney();
 
         if (event.getView().getTitle().equals(ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник")) {
