@@ -5,8 +5,11 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.EulerAngle;
 import ru.prisonlife.PositionManager;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
@@ -136,18 +139,29 @@ public class CommandSMS implements CommandExecutor {
         if (rand <= Integer.parseInt(plugin.getConfig().getString("settings.hindranceRandom"))) return false;
 
         hindrances.put(location, radius);
-        setTask(location);
+        hindrancesLocations.add(location);
+
+        taskManager();
+
         return true;
     }
 
-    private void setTask(Location location) {
-        new BukkitRunnable() {
+    private void taskManager() {
 
-            @Override
-            public void run() {
-                hindrances.remove(location);
-            }
+        if (task == null) {
+            task = Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    hindrances.remove(hindrancesLocations.get(0));
+                    hindrancesLocations.remove(0);
+                }
+            }, 1200, 1200);
+        }
 
-        }.runTaskLater(this.plugin, 1200);
+        if (!hindrances.isEmpty()) {
+            task.cancel();
+            task = null;
+        }
+
     }
 }

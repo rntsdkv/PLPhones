@@ -7,6 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.commands.*;
@@ -34,8 +36,10 @@ public class Main extends PLPlugin {
     public static Map<Player, Player> SIMsellers = new HashMap<>();
     public static Map<Player, Integer> SIMprices = new HashMap<>();
 
+    public static List<Location> hindrancesLocations = new ArrayList<>();
     public static Map<Location, Integer> hindrances = new HashMap<>();
 
+    public static BukkitTask task = null;
 
     public void onCreate() {
         copyConfigFile();
