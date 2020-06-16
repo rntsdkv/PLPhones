@@ -49,10 +49,12 @@ public class CommandAccept implements CommandExecutor {
             return true;
         }
 
-        if (!checkBalance(buyer, seller)) {
+        if (PrisonLife.getCurrencyManager().countMoney(buyer.getInventory()) < SIMprices.get(seller)) {
             buyer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughMoneyReal")));
             return true;
         }
+
+        PrisonLife.getCurrencyManager().reduceMoney(PrisonLife.getPrisoner(buyer), SIMprices.get(seller));
 
         Integer sellerPhoneNumber = PrisonLife.getPrisoner(seller).getPhoneNumber();
         Integer buyerPhoneNumber = PrisonLife.getPrisoner(buyer).getPhoneNumber();
@@ -68,10 +70,5 @@ public class CommandAccept implements CommandExecutor {
         SIMprices.remove(seller);
 
         return true;
-    }
-
-    private boolean checkBalance(Player player, Player seller) {
-        if (PrisonLife.getPrisoner(player).getPhoneMoney() >= SIMprices.get(seller)) return true;
-        return false;
     }
 }
