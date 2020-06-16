@@ -32,10 +32,13 @@ public class PayGUIClose implements Listener {
         if (event.getView().getTitle().equals(ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник")) {
 
             int slotsCount = event.getInventory().getSize();
-            ItemStack money1 = PrisonItemFactory.createItem(null, PrisonItem.PRISON_MONEY);
-            ItemStack money10 = PrisonItemFactory.createItem(null, PrisonItem.PRISON_MONEY_TEN);
-            ItemStack money50 = PrisonItemFactory.createItem(null, PrisonItem.PRISON_MONEY_FIFTY);
-            ItemStack money100 = PrisonItemFactory.createItem(null, PrisonItem.CIGARETTE_HUNDRED);
+            String money1 = PrisonItem.DOLLAR_ONE.getNamespace();
+            String money2 = PrisonItem.DOLLAR_TWO.getNamespace();
+            String money5 = PrisonItem.DOLLAR_FIVE.getNamespace();
+            String money10 = PrisonItem.DOLLAR_TEN.getNamespace();
+            String money20 = PrisonItem.DOLLAR_TWENTY.getNamespace();
+            String money50 = PrisonItem.DOLLAR_FIFTY.getNamespace();
+            String money100 = PrisonItem.DOLLAR_HUNDRED.getNamespace();
 
             for (int i = 0; i < slotsCount; i++) {
 
@@ -43,9 +46,15 @@ public class PayGUIClose implements Listener {
 
                 if (item.equals(money1)) {
                     prisoner.setPhoneMoney(prisoner.getPhoneMoney() + item.getAmount());
+                } else if (item.equals(money2)) {
+                    prisoner.setPhoneMoney(prisoner.getPhoneMoney() + item.getAmount() * 5);
+                } else if (item.equals(money5)) {
+                    prisoner.setPhoneMoney(prisoner.getPhoneMoney() + item.getAmount() * 10);
                 } else if (item.equals(money10)) {
                     prisoner.setPhoneMoney(prisoner.getPhoneMoney() + item.getAmount() * 10);
-                } else if (item.equals(money50)) {
+                } else if (item.equals(money20)) {
+                    prisoner.setPhoneMoney(prisoner.getPhoneMoney() + item.getAmount() * 20);
+                }else if (item.equals(money50)) {
                     prisoner.setPhoneMoney(prisoner.getPhoneMoney() + item.getAmount() * 50);
                 } else if (item.equals(money100)) {
                     prisoner.setPhoneMoney(prisoner.getPhoneMoney() + item.getAmount() * 100);
