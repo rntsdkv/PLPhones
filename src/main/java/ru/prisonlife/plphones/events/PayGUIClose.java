@@ -25,7 +25,8 @@ public class PayGUIClose implements Listener {
 
     @EventHandler
     public void onClosed(InventoryCloseEvent event) {
-        Prisoner prisoner = PrisonLife.getPrisoner((Player) event.getPlayer());
+        Player player = (Player) event.getPlayer();
+        Prisoner prisoner = PrisonLife.getPrisoner(player);
         // int prisonerMoney = prisoner.getPhoneMoney();
 
         if (event.getView().getTitle().equals(ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник")) {
@@ -71,7 +72,7 @@ public class PayGUIClose implements Listener {
             // int prisonerMoneyDiff = prisoner.getPhoneMoney() - prisonerMoney;
 
             if (moneySum != 0) {
-                player.sendMessage(colorize("&l&6Вы пополнили баланс на " + prisonerMoneyDiff + "$\nВаш баланс: " + prisoner.getPhoneMoney().toString()));
+                player.sendMessage(colorize("&l&6Вы пополнили баланс на " + moneySum + "$\nВаш баланс: " + prisoner.getPhoneMoney().toString()));
             }
         }
     }
