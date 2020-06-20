@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.plugin.PLPlugin;
 
@@ -54,8 +55,15 @@ public class CommandAccept implements CommandExecutor {
             return true;
         }
 
-        PrisonLife.getCurrencyManager().reduceMoney(PrisonLife.getPrisoner(buyer), SIMprices.get(seller));
+        if (!PrisonLife.getCurrencyManager().canPuttedMoney(seller.getInventory(), SIMprices.get(seller))) {
+            seller.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughSlots")));
+            buyer.sendMessage(colorize(plugin.getConfig().getString("messages.sellWasCancelled")));
+            return true;
+        }
 
+        PrisonLife.getCurrencyManager().reduceMoney(buyer.getInventory(), SIMprices.get(seller));
+        seller.getInventory().addItem((ItemStack) PrisonLife.getCurrencyManager().createMoney(SIMprices.get(seller)));
+        
         Integer sellerPhoneNumber = PrisonLife.getPrisoner(seller).getPhoneNumber();
         Integer buyerPhoneNumber = PrisonLife.getPrisoner(buyer).getPhoneNumber();
         Integer sellerPhoneMoney = PrisonLife.getPrisoner(seller).getPhoneMoney();

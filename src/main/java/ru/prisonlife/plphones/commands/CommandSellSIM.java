@@ -70,11 +70,6 @@ public class CommandSellSIM implements CommandExecutor {
             return false;
         }
 
-        if (price < 0 || price > 64) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.priceLimit")));
-            return true;
-        }
-
         sendAccept(player, addressee, price);
 
         return true;
