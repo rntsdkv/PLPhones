@@ -6,6 +6,9 @@ description: Plugin for phones on the server
 depend: [PLCore]
 
 commands:
+  supersim:
+    permission: plphones.supersim
+    usage: /supersim <player>
   sms:
     description: Send SMS to player
     permission: plphones.sms
