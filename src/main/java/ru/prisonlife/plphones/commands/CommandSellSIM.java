@@ -31,7 +31,7 @@ public class CommandSellSIM implements CommandExecutor {
         }
 
         Player player = (Player) commandSender;
-        Prisoner prisoner = (Prisoner) PrisonLife.getPrisoner(player);
+        Prisoner prisoner = PrisonLife.getPrisoner(player);
 
         if (strings.length < 2) {
             player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));

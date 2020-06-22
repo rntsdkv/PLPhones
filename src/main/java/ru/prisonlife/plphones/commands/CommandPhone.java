@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
 import ru.prisonlife.plugin.PLPlugin;
 
@@ -24,18 +25,18 @@ public class CommandPhone implements CommandExecutor {
             commandSender.sendMessage(colorize(plugin.getConfig().getString("messages.wrongSender")));
         }
 
-        Player senderPlayer = (Player) commandSender;
-        Prisoner senderPrisoner = (Prisoner) commandSender;
+        Player player = (Player) commandSender;
+        Prisoner prisoner = PrisonLife.getPrisoner(player);
 
-        if (!senderPrisoner.hasPhone()) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notPhone")));
+        if (!prisoner.hasPhone()) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.notPhone")));
             return true;
         }
 
-        String phoneNumber = senderPrisoner.getPhoneNumber().toString();
-        String moneyOnBalance = senderPrisoner.getPhoneMoney().toString();
+        String phoneNumber = prisoner.getPhoneNumber().toString();
+        String moneyOnBalance = prisoner.getPhoneMoney().toString();
 
-        senderPlayer.sendMessage(colorize("&l&9Информация о телефоне:\n&3Номер: &b" + phoneNumber + "\n&3Остаток на балансе: &b" + moneyOnBalance));
+        player.sendMessage(colorize("&l&9Информация о телефоне:\n&3Номер: &b" + phoneNumber + "\n&3Остаток на балансе: &b" + moneyOnBalance));
         return true;
     }
 }

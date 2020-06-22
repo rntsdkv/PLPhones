@@ -15,6 +15,7 @@ import ru.prisonlife.PositionManager;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
 import ru.prisonlife.database.json.BoldPoint;
+import ru.prisonlife.entity.PhoneEntity;
 import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.Main;
 import ru.prisonlife.plugin.PLPlugin;
@@ -38,55 +39,59 @@ public class CommandSMS implements CommandExecutor {
             return true;
         }
 
-        Prisoner senderPrisoner = (Prisoner) commandSender;
-        Player senderPlayer = (Player) commandSender;
+        Player player = (Player) commandSender;
+        Prisoner prisoner = PrisonLife.getPrisoner(player);
 
-        Integer playerPhoneNumber = senderPrisoner.getPhoneNumber();
-
-        if (!senderPrisoner.hasPhone()) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notPhone")));
+        if (!prisoner.hasPhone()) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.notPhone")));
             return true;
         }
 
         if (strings.length < 2) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
             return false;
         }
 
-        Integer addresseePhoneNumber = Integer.parseInt(strings[0]);
+        Integer receiverPhoneNumber = Integer.parseInt(strings[0]);
+        PhoneEntity phoneEntity = findPhone(receiverPhoneNumber);
 
-        Prisoner addresseePrisoner = (Prisoner) PrisonLife.getPrisoner(addresseePhoneNumber);
-        Player addresseePlayer = (Player) Bukkit.getPlayer(addresseePrisoner.getName());
-
-        if (addresseePlayer == null) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notNumber")));
+        if (phoneEntity == null) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.notNumber")));
             return true;
         }
 
+        Prisoner receiverPrisoner = PrisonLife.getPrisoner(phoneEntity.getAccountNumber());
         String message = getMessage(strings);
 
-        if (!checkBalance(senderPrisoner)) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughMoney")));
+        if (!checkBalance(prisoner)) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughMoney")));
             return true;
         }
 
-
-        if (checkHindrance(senderPlayer)) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
+        if (checkHindrance(player)) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
             return true;
         }
 
-        if (newHindrance(senderPlayer)) {
-            senderPlayer.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
+        if (newHindrance(player)) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
             return true;
         }
-        senderPrisoner.setPhoneMoney(senderPrisoner.getPhoneMoney() - Integer.parseInt(plugin.getConfig().getString("settings.messagePrice")));
+        prisoner.setPhoneMoney(prisoner.getPhoneMoney() - Integer.parseInt(plugin.getConfig().getString("settings.messagePrice")));
 
-        senderPlayer.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + addresseePlayer.getName() + addresseePhoneNumber.toString()));
-        addresseePlayer.sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + senderPlayer.getName() + playerPhoneNumber.toString()));
+        player.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + receiverPrisoner.getName() + receiverPhoneNumber.toString()));
+        receiverPrisoner.getPlayer().sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + player.getName() + prisoner.getPhoneNumber().toString()));
 
 
         return true;
+    }
+
+    private PhoneEntity findPhone(Integer phoneNumber) {
+        for (PhoneEntity phoneEntity : PrisonLife.getPhones()) {
+            if (phoneEntity.getPhone().equals(phoneNumber)) return phoneEntity;
+        }
+
+        return null;
     }
 
     private boolean checkBalance(Prisoner prisoner) {
@@ -143,16 +148,13 @@ public class CommandSMS implements CommandExecutor {
     private void taskManager() {
 
         if (task == null) {
-            task = Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    for (Location key : hindrancesPlayers.keySet()) {
-                        hindrancesSeconds.replace(key, hindrancesSeconds.get(key) + 1);
-                        if ((hindrancesSeconds.get(key)) > 60) {
-                            hindrancesPlayers.remove(key);
-                            hindrancesRadius.remove(key);
-                            hindrancesSeconds.remove(key);
-                        }
+            task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                for (Location key : hindrancesPlayers.keySet()) {
+                    hindrancesSeconds.replace(key, hindrancesSeconds.get(key) + 1);
+                    if ((hindrancesSeconds.get(key)) > 60) {
+                        hindrancesPlayers.remove(key);
+                        hindrancesRadius.remove(key);
+                        hindrancesSeconds.remove(key);
                     }
                 }
             }, 20, 20);

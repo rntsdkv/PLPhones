@@ -25,11 +25,10 @@ public class CommandPhonePay implements CommandExecutor {
             commandSender.sendMessage(colorize(plugin.getConfig().getString("messages.wrongSender")));
         }
 
-        Player senderPlayer = (Player) commandSender;
+        Player player = (Player) commandSender;
+        Inventory GUI = Bukkit.createInventory(player, 1, ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник");
 
-        Inventory GUI = Bukkit.createInventory(senderPlayer, 1, ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник");
-
-        senderPlayer.openInventory(GUI);
+        player.openInventory(GUI);
         return true;
     }
 }
