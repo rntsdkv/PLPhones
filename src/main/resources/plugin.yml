@@ -1,8 +1,9 @@
 name: PLPhones
 main: ru.prisonlife.plphones.Main
-version: v1.0
+version: 1.0.0
 author: rntsdkv
 description: Plugin for phones on the server
+depend: [PLCore]
 
 commands:
   sms:

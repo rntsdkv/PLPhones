@@ -6,7 +6,7 @@
 
     <groupId>ru.prisonlife</groupId>
     <artifactId>plphones</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
 
     <properties>
         <java.encoding>UTF-8</java.encoding>
