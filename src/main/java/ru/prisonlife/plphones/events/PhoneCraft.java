@@ -26,7 +26,7 @@ public class PhoneCraft implements Listener {
 
     public PhoneCraft(PLPlugin main) {
         this.plugin = main;
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) this);
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
