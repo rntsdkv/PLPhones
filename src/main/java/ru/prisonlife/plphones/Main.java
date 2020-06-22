@@ -10,6 +10,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import ru.prisonlife.item.PrisonItem;
+import ru.prisonlife.item.PrisonItemBuilder;
 import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.commands.*;
 import ru.prisonlife.plphones.events.PayGUIClick;
@@ -44,7 +45,7 @@ public class Main extends PLPlugin {
 
     public void onCreate() {
         copyConfigFile();
-        ItemStack itemPhone = PrisonItemFactory.createItem(null, PrisonItem.PHONE);
+        ItemStack itemPhone = new PrisonItemBuilder().setPrisonItem(PrisonItem.PHONE).build();
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
     }
