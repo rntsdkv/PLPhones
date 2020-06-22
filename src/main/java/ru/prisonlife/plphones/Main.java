@@ -26,11 +26,11 @@ import java.util.Map;
 public class Main extends PLPlugin {
 
     public String getPluginName() {
-        return null;
+        return "PLPhones";
     }
 
     public List<Pair<String, Object>> initPluginFiles() {
-        return null;
+        return new ArrayList<>();
     }
 
     public static Map<Player, Player> SIMsellers = new HashMap<>();
@@ -40,8 +40,7 @@ public class Main extends PLPlugin {
     public static Map<Location, Integer> hindrancesRadius = new HashMap<>();
     public static Map<Location, Integer> hindrancesSeconds = new HashMap<>();
 
-
-    public static BukkitTask task = null;
+    public static BukkitTask task;
 
     public void onCreate() {
         copyConfigFile();
