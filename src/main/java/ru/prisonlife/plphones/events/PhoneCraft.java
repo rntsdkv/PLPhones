@@ -32,14 +32,14 @@ public class PhoneCraft implements Listener {
     public void onCraft(CraftItemEvent event) {
         if (checkForPhone(event.getInventory())) {
             Player player = (Player) event.getWhoClicked();
-            Prisoner prisoner = (Prisoner) player;
+            Prisoner prisoner = PrisonLife.getPrisoner(player);
 
             if (prisoner.hasPhone()) {
                 player.sendMessage(colorize(plugin.getConfig().getString("messages.alreadyCraftedPhone")));
             }
             else {
                 prisoner.setPhoneNumber(generatePhoneNumber());
-                player.sendMessage(colorize(plugin.getConfig().getString("messages.craftPhone")));
+                player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneCraft")));
             }
 
             clearPhoneAtInventory(player);

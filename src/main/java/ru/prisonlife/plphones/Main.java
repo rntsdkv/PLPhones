@@ -1,9 +1,6 @@
 package ru.prisonlife.plphones;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -83,8 +80,8 @@ public class Main extends PLPlugin {
     }
 
     private ShapedRecipe setCraft(ItemStack item) {
-        ShapedRecipe shapedRecipe = new ShapedRecipe(item);
-        shapedRecipe.shape(new String[] {"ABC", " D "});
+        ShapedRecipe shapedRecipe = new ShapedRecipe(new NamespacedKey(this, "plphones.phone"), item);
+        shapedRecipe.shape(" A ", " BD", " C ");
         /**
          * На время тестов в качестве:
          *
@@ -97,7 +94,7 @@ public class Main extends PLPlugin {
         // ItemStack itemBody = PrisonItemFactory.createItem(null, PrisonItem.PHONE_BODY);
         // ItemStack itemBattery = PrisonItemFactory.createItem(null, PrisonItem.PHONE_BATTERY);
         // ItemStack itemSIM = PrisonItemFactory.createItem(null, PrisonItem.PHONE_SIM_CARD);
-        shapedRecipe.setIngredient('A', Material.CLAY);
+        shapedRecipe.setIngredient('A', Material.CLAY_BALL);
         shapedRecipe.setIngredient('B', Material.BEDROCK);
         shapedRecipe.setIngredient('C', Material.ANVIL);
         shapedRecipe.setIngredient('D', Material.EGG);
