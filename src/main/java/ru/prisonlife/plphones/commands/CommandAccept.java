@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.plugin.PLPlugin;
 
@@ -13,10 +14,9 @@ import static ru.prisonlife.plphones.Main.*;
 
 public class CommandAccept implements CommandExecutor {
 
-    private PLPlugin plugin;
-    public CommandAccept(PLPlugin main) {
-        this.plugin = main;
-        plugin.getCommand("phone accept").setExecutor(this);
+    private final Plugin plugin;
+    public CommandAccept(Plugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override

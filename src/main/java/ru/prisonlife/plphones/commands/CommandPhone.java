@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import ru.prisonlife.Prisoner;
 import ru.prisonlife.plugin.PLPlugin;
 
@@ -11,11 +12,10 @@ import static ru.prisonlife.plphones.Main.colorize;
 
 public class CommandPhone implements CommandExecutor {
 
-    private PLPlugin plugin;
+    private Plugin plugin;
 
-    public CommandPhone(PLPlugin main) {
-        this.plugin = main;
-        plugin.getCommand("phone").setExecutor(this);
+    public CommandPhone(Plugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override

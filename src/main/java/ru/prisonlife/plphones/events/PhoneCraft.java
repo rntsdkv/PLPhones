@@ -22,11 +22,10 @@ import static ru.prisonlife.plphones.Main.colorize;
 
 public class PhoneCraft implements Listener {
 
-    private final PLPlugin plugin;
+    private final Plugin plugin;
 
-    public PhoneCraft(PLPlugin main) {
-        this.plugin = main;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public PhoneCraft(Plugin plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler

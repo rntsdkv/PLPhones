@@ -7,11 +7,10 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitTask;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.item.PrisonItemBuilder;
-import ru.prisonlife.item.PrisonItemFactory;
 import ru.prisonlife.plphones.commands.*;
 import ru.prisonlife.plphones.events.PayGUIClick;
 import ru.prisonlife.plphones.events.PayGUIClose;
@@ -43,6 +42,7 @@ public class Main extends PLPlugin {
 
     public static BukkitTask task;
 
+    @Override
     public void onCreate() {
         copyConfigFile();
         ItemStack itemPhone = new PrisonItemBuilder().setPrisonItem(PrisonItem.PHONE).build();
@@ -54,18 +54,23 @@ public class Main extends PLPlugin {
     public void onEnable() {
         super.onEnable();
         registerCommands();
+        registerListeners();
     }
 
     private void registerCommands() {
-        new PhoneCraft(this);
-        new CommandSMS(this);
-        new CommandPhone(this);
-        new CommandSuperSIM(this);
-        new CommandSellSIM(this);
-        new CommandPhonePay(this);
-        new PayGUIClick(this);
-        new PayGUIClose(this);
-        new CommandAccept(this);
+        getCommand("sms").setExecutor(new CommandSMS(this));
+        getCommand("phone").setExecutor(new CommandPhone(this));
+        getCommand("supersim").setExecutor(new CommandSuperSIM(this));
+        getCommand("sellsim").setExecutor(new CommandSellSIM(this));
+        getCommand("phone pay").setExecutor(new CommandPhonePay(this));
+        getCommand("phone accept").setExecutor(new CommandAccept(this));
+    }
+
+    private void registerListeners() {
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new PhoneCraft(this), this);
+        pluginManager.registerEvents(new PayGUIClick(), this);
+        pluginManager.registerEvents(new PayGUIClose(), this);
     }
 
     private void copyConfigFile() {

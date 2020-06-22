@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.plugin.Plugin;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
 import ru.prisonlife.entity.PhoneEntity;
@@ -15,11 +16,10 @@ import static ru.prisonlife.plphones.Main.colorize;
 
 public class CommandSuperSIM implements CommandExecutor {
 
-    private PLPlugin plugin;
+    private final Plugin plugin;
 
-    public CommandSuperSIM(PLPlugin main) {
-        this.plugin = main;
-        plugin.getCommand("supersim").setExecutor(this);
+    public CommandSuperSIM(Plugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override

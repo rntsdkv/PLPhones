@@ -16,13 +16,6 @@ import static ru.prisonlife.plphones.Main.colorize;
 
 public class PayGUIClose implements Listener {
 
-    private PLPlugin plugin;
-
-    public PayGUIClose(PLPlugin main) {
-        this.plugin = main;
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) this);
-    }
-
     @EventHandler
     public void onClosed(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();

@@ -7,17 +7,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import ru.prisonlife.plugin.PLPlugin;
+import org.bukkit.plugin.Plugin;
 
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class CommandPhonePay implements CommandExecutor {
 
-    private PLPlugin plugin;
+    private final Plugin plugin;
 
-    public CommandPhonePay(PLPlugin main) {
-        this.plugin = main;
-        plugin.getCommand("phone pay").setExecutor(this);
+    public CommandPhonePay(Plugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override

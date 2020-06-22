@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.EulerAngle;
@@ -25,12 +26,10 @@ import static ru.prisonlife.plphones.Main.*;
 
 public class CommandSMS implements CommandExecutor {
 
-    final Random random = new Random();
-    private PLPlugin plugin;
+    private final Plugin plugin;
 
-    public CommandSMS(PLPlugin main) {
-        this.plugin = main;
-        plugin.getCommand("sms").setExecutor(this);
+    public CommandSMS(Plugin plugin) {
+        this.plugin = plugin;
     }
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -126,6 +125,7 @@ public class CommandSMS implements CommandExecutor {
     }
 
     private boolean newHindrance(Player player) {
+        Random random = new Random();
         int rand = random.nextInt(100);
         int radius = random.nextInt(9) + 2;
 

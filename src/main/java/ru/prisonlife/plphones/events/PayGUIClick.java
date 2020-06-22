@@ -13,12 +13,6 @@ import ru.prisonlife.plugin.PLPlugin;
 
 public class PayGUIClick implements Listener {
 
-    private PLPlugin plugin;
-    public PayGUIClick(PLPlugin main) {
-        this.plugin = main;
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) this);
-    }
-
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
