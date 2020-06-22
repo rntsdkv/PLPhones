@@ -48,6 +48,15 @@ public class Main extends PLPlugin {
         ItemStack itemPhone = PrisonItemFactory.createItem(null, PrisonItem.PHONE);
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
+    }
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        registerCommands();
+    }
+
+    private void registerCommands() {
         new PhoneCraft(this);
         new CommandSMS(this);
         new CommandPhone(this);
