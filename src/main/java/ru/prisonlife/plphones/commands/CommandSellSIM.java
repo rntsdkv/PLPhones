@@ -1,12 +1,12 @@
 package ru.prisonlife.plphones.commands;
 
-import net.minecraft.server.v1_15_R1.IChatBaseComponent;
-import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.prisonlife.PrisonLife;
@@ -76,11 +76,11 @@ public class CommandSellSIM implements CommandExecutor {
     }
 
     private void sendAccept(Player seller, Player buyer, Integer price) {
-        buyer.sendMessage(colorize("&l&1Игрок &b" + buyer.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + Integer.toString(price)));
-        IChatBaseComponent component = IChatBaseComponent.ChatSerializer
-                .a("{\"text\":\"&l&bВам предложили сделку: \", \"extra\":[{\"text\":\"&l&2ПРИНЯТЬ\", \"clickEvent\":{\"action\":\"run_command\", \"value\":\"/phone accept " + seller.getName() + "\"}}]}");
-        PacketPlayOutChat packet = new PacketPlayOutChat(component);
-        ((CraftPlayer) buyer).getHandle().playerConnection.sendPacket(packet);
+        buyer.sendMessage(colorize("&l&1Игрок &b" + buyer.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + price));
+        TextComponent textComponent = new TextComponent(colorize("&l&bВам предложили сделку: "));
+        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(colorize("&l&2ПРИНЯТЬ"))));
+        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/phone accept " + seller.getName()));
+        seller.spigot().sendMessage(textComponent);
         SIMsellers.put(seller, buyer);
         SIMprices.put(seller, price);
         setTask(seller);
