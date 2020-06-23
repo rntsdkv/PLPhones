@@ -28,7 +28,7 @@ public class CommandAccept implements CommandExecutor {
 
         Player buyer = (Player) commandSender;
 
-        if (strings.length == 0) {
+        if (strings.length != 1) {
             buyer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
             return false;
         }

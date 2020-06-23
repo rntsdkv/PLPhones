@@ -23,6 +23,7 @@ public class CommandPhone implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage(colorize(plugin.getConfig().getString("messages.wrongSender")));
+            return true;
         }
 
         Player player = (Player) commandSender;

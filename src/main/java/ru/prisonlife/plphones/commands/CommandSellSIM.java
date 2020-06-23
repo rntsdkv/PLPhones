@@ -34,7 +34,7 @@ public class CommandSellSIM implements CommandExecutor {
         Player player = (Player) commandSender;
         Prisoner prisoner = PrisonLife.getPrisoner(player);
 
-        if (strings.length < 2) {
+        if (strings.length != 2) {
             player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
             return false;
         }
@@ -45,7 +45,7 @@ public class CommandSellSIM implements CommandExecutor {
         }
 
         Player addressee = Bukkit.getPlayer(strings[0]);
-        Prisoner addresseePrisoner = (Prisoner) addressee;
+        Prisoner addresseePrisoner = PrisonLife.getPrisoner(addressee);
 
         if (addressee == null) {
             player.sendMessage(colorize(plugin.getConfig().getString("messages.notPlayer")));
@@ -76,10 +76,10 @@ public class CommandSellSIM implements CommandExecutor {
     }
 
     private void sendAccept(Player seller, Player buyer, Integer price) {
-        buyer.sendMessage(colorize("&l&1Игрок &b" + buyer.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + price));
+        buyer.sendMessage(colorize("&l&1Игрок &b" + seller.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + price));
         TextComponent textComponent = new TextComponent(colorize("&l&bВам предложили сделку: "));
         textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(colorize("&l&2ПРИНЯТЬ"))));
-        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/phone accept " + seller.getName()));
+        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/phoneaccept " + seller.getName()));
         seller.spigot().sendMessage(textComponent);
         SIMsellers.put(seller, buyer);
         SIMprices.put(seller, price);

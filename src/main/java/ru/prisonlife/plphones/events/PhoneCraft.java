@@ -35,6 +35,7 @@ public class PhoneCraft implements Listener {
 
             if (prisoner.hasPhone()) {
                 player.sendMessage(colorize(plugin.getConfig().getString("messages.alreadyCraftedPhone")));
+                event.setCancelled(true);
             }
             else {
                 prisoner.setPhoneNumber(generatePhoneNumber());
