@@ -13,10 +13,11 @@ import static ru.prisonlife.plphones.Main.colorize;
 
 public class CommandPhone implements CommandExecutor {
 
-    private Plugin plugin;
+    private PLPlugin plugin;
 
-    public CommandPhone(Plugin plugin) {
-        this.plugin = plugin;
+    public CommandPhone(PLPlugin main) {
+        this.plugin = main;
+        plugin.getCommand("phone").setExecutor(this);
     }
 
     @Override

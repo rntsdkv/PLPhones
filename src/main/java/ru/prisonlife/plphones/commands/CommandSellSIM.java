@@ -12,15 +12,17 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
+import ru.prisonlife.plugin.PLPlugin;
 
 import static ru.prisonlife.plphones.Main.*;
 
 public class CommandSellSIM implements CommandExecutor {
 
-    private final Plugin plugin;
+    private PLPlugin plugin;
 
-    public CommandSellSIM(Plugin plugin) {
-        this.plugin = plugin;
+    public CommandSellSIM(PLPlugin main) {
+        this.plugin = main;
+        plugin.getCommand("sellsim").setExecutor(this);
     }
 
     @Override

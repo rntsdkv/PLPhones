@@ -55,12 +55,12 @@ public class Main extends PLPlugin {
     }
 
     private void registerCommands() {
-        getCommand("sms").setExecutor(new CommandSMS(this));
-        getCommand("phone").setExecutor(new CommandPhone(this));
-        getCommand("supersim").setExecutor(new CommandSuperSIM(this));
-        getCommand("sellsim").setExecutor(new CommandSellSIM(this));
-        getCommand("phone pay").setExecutor(new CommandPhonePay(this));
-        getCommand("phone accept").setExecutor(new CommandAccept(this));
+        new CommandSMS(this);
+        new CommandAccept(this);
+        new CommandPhonePay(this);
+        new CommandSellSIM(this);
+        new CommandSuperSIM(this);
+        new CommandPhone(this);
     }
 
     private void registerListeners() {

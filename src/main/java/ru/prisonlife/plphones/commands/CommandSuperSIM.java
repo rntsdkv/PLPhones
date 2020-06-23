@@ -16,10 +16,11 @@ import static ru.prisonlife.plphones.Main.colorize;
 
 public class CommandSuperSIM implements CommandExecutor {
 
-    private final Plugin plugin;
+    private PLPlugin plugin;
 
-    public CommandSuperSIM(Plugin plugin) {
-        this.plugin = plugin;
+    public CommandSuperSIM(PLPlugin main) {
+        this.plugin = main;
+        plugin.getCommand("supersim").setExecutor(this);
     }
 
     @Override

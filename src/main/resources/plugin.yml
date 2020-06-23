@@ -21,11 +21,11 @@ commands:
     description: Sell your SIM to player
     permission: plphones.sellsim
     usage: /sellsim <player> <sum>
-  phone pay:
+  phonepay:
     description: Put money on your SIM
     permission: plphones.phone.pay
-    usage: /phone pay
-  phone accept:
+    usage: /phonepay
+  phoneaccept:
     description: Special command
     permission: plphones.phone.accept
-    usage: /phone accept <player>
+    usage: /phoneaccept <player>

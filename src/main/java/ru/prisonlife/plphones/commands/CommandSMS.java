@@ -27,10 +27,11 @@ import static ru.prisonlife.plphones.Main.*;
 
 public class CommandSMS implements CommandExecutor {
 
-    private final Plugin plugin;
+    private PLPlugin plugin;
 
-    public CommandSMS(Plugin plugin) {
-        this.plugin = plugin;
+    public CommandSMS(PLPlugin main) {
+        this.plugin = main;
+        plugin.getCommand("sms").setExecutor(this);
     }
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {

@@ -14,9 +14,10 @@ import static ru.prisonlife.plphones.Main.*;
 
 public class CommandAccept implements CommandExecutor {
 
-    private final Plugin plugin;
-    public CommandAccept(Plugin plugin) {
-        this.plugin = plugin;
+    private PLPlugin plugin;
+    public CommandAccept(PLPlugin main) {
+        this.plugin = main;
+        plugin.getCommand("phoneaccept").setExecutor(this);
     }
 
     @Override
