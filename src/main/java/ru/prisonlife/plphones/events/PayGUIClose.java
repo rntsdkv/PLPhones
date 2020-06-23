@@ -5,13 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
-import ru.prisonlife.item.PrisonItem;
-import ru.prisonlife.item.PrisonItemFactory;
-import ru.prisonlife.plugin.PLPlugin;
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class PayGUIClose implements Listener {

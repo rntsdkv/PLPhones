@@ -6,10 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import ru.prisonlife.item.PrisonItem;
-import ru.prisonlife.item.PrisonItemFactory;
-import ru.prisonlife.plugin.PLPlugin;
 
 public class PayGUIClick implements Listener {
 
