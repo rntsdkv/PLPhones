@@ -76,8 +76,8 @@ public class CommandSellSIM implements CommandExecutor {
     }
 
     private void sendAccept(Player seller, Player buyer, Integer price) {
-        buyer.sendMessage(colorize("&l&1Игрок &b" + seller.getName() + "&1 хочет поменяться с Вами сим-картой за &b" + price));
-        TextComponent textComponent = new TextComponent(colorize("&l&2ПРИНЯТЬ"));
+        buyer.sendMessage(colorize("&l&bИгрок &1" + seller.getName() + "&b хочет поменяться с Вами сим-картой за &1" + price + "$"));
+        TextComponent textComponent = new TextComponent(colorize("&l&2Принять"));
         textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(colorize("&l&2Принять предложение"))));
         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/phoneaccept " + seller.getName()));
         seller.spigot().sendMessage(textComponent);

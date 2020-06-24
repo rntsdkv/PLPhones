@@ -13,6 +13,8 @@ import ru.prisonlife.database.json.BoldPoint;
 import ru.prisonlife.entity.PhoneEntity;
 import ru.prisonlife.plugin.PLPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -73,10 +75,8 @@ public class CommandSMS implements CommandExecutor {
         }
         prisoner.setPhoneMoney(prisoner.getPhoneMoney() - Integer.parseInt(plugin.getConfig().getString("settings.messagePrice")));
 
-        player.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + receiverPrisoner.getName() + receiverPhoneNumber.toString()));
-        receiverPrisoner.getPlayer().sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + player.getName() + prisoner.getPhoneNumber().toString()));
-
-
+        player.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + receiverPrisoner.getName() + " " + receiverPhoneNumber.toString()));
+        receiverPrisoner.getPlayer().sendMessage(colorize("&l&7" + "SMS | &r" + message + "&l&7 | Отправитель: " + player.getName() + " " + prisoner.getPhoneNumber().toString()));
         return true;
     }
 
@@ -97,13 +97,13 @@ public class CommandSMS implements CommandExecutor {
     }
 
     private String getMessage(String[] strings) {
-        StringBuilder text = new StringBuilder();
+        List<String> text = new ArrayList<>();
 
-        for (Integer i = 0; i < strings.length && i != 0; i++) {
-            text.append(strings[i]);
+        for (Integer i = 1; i < strings.length; i++) {
+            text.add(strings[i]);
         }
 
-        return text.toString();
+        return String.join(" ", text);
     }
 
     private boolean checkHindrance(Player player) {
