@@ -29,3 +29,7 @@ commands:
     description: Special command
     permission: plphones.phone.accept
     usage: /phoneaccept <player>
+  give:
+    description: Command for tests
+    permission: plphones.give
+    usage: /give <amount>

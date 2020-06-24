@@ -5,8 +5,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import ru.prisonlife.item.PrisonItem;
+
+import java.util.Optional;
 
 public class PayGUIClick implements Listener {
 
@@ -39,5 +44,32 @@ public class PayGUIClick implements Listener {
             }
 
         }
+
+        // clearPhoneAtInventory(player);
     }
+
+    /*
+    private boolean checkForPhone(Inventory inventory) {
+        return Optional.ofNullable(getPhoneFromInventory(inventory)).isPresent();
+    }
+
+    private void clearPhoneAtInventory(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        Integer phoneSlot = getPhoneFromInventory(inventory);
+        if (Optional.ofNullable(phoneSlot).isPresent()) inventory.setItem(phoneSlot, null);
+    }
+
+    private Integer getPhoneFromInventory(Inventory inventory) {
+        int size = inventory.getSize();
+
+        for (int i = 0; i < size; i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item == null) continue;
+            ItemMeta meta = item.getItemMeta();
+            if (meta != null && meta.getLocalizedName().equals(PrisonItem.PHONE.getNamespace())) return i;
+        }
+
+        return null;
+    }
+    */
 }

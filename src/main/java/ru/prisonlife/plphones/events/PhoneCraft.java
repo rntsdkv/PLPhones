@@ -29,26 +29,22 @@ public class PhoneCraft implements Listener {
 
     @EventHandler
     public void onCraft(CraftItemEvent event) {
-        if (checkForPhone(event.getInventory())) {
+
+        if (event.getCursor().getItemMeta().getDisplayName().equals(PrisonItem.PHONE.getNamespace())) {
+
+            event.getCursor().setAmount(0);
             Player player = (Player) event.getWhoClicked();
             Prisoner prisoner = PrisonLife.getPrisoner(player);
 
             if (prisoner.hasPhone()) {
                 player.sendMessage(colorize(plugin.getConfig().getString("messages.alreadyCraftedPhone")));
-                event.setCancelled(true);
-            }
-            else {
+            } else {
                 prisoner.setPhoneNumber(generatePhoneNumber());
                 player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneCraft")));
             }
 
-            clearPhoneAtInventory(player);
         }
 
-    }
-
-    private boolean checkForPhone(Inventory inventory) {
-        return Optional.ofNullable(getPhoneFromInventory(inventory)).isPresent();
     }
 
     private int generatePhoneNumber() {
@@ -64,24 +60,5 @@ public class PhoneCraft implements Listener {
         } while (phoneNumbers.contains(phoneNumber));
 
         return phoneNumber;
-    }
-
-    private void clearPhoneAtInventory(Player player) {
-        PlayerInventory inventory = player.getInventory();
-        Integer phoneSlot = getPhoneFromInventory(inventory);
-        if (Optional.ofNullable(phoneSlot).isPresent()) inventory.setItem(phoneSlot, null);
-    }
-
-    private Integer getPhoneFromInventory(Inventory inventory) {
-        int size = inventory.getSize();
-
-        for (int i = 0; i < size; i++) {
-            ItemStack item = inventory.getItem(i);
-            if (item == null) continue;
-            ItemMeta meta = item.getItemMeta();
-            if (meta != null && meta.getLocalizedName().equals(PrisonItem.PHONE.getNamespace())) return i;
-        }
-
-        return null;
     }
 }

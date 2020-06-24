@@ -61,6 +61,7 @@ public class Main extends PLPlugin {
         new CommandSellSIM(this);
         new CommandSuperSIM(this);
         new CommandPhone(this);
+        new CommandGive(this);
     }
 
     private void registerListeners() {

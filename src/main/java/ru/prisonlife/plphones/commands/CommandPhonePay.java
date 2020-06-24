@@ -28,7 +28,7 @@ public class CommandPhonePay implements CommandExecutor {
         }
 
         Player player = (Player) commandSender;
-        Inventory GUI = Bukkit.createInventory(player, 1, ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник");
+        Inventory GUI = Bukkit.createInventory(player, 9, ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник");
 
         player.openInventory(GUI);
         return true;
