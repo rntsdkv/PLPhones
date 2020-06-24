@@ -30,7 +30,7 @@ public class PhoneCraft implements Listener {
     @EventHandler
     public void onCraft(CraftItemEvent event) {
 
-        if (event.getCursor().getItemMeta().getDisplayName().equals(PrisonItem.PHONE.getNamespace())) {
+        if (event.getCurrentItem().getItemMeta().getDisplayName().equals(PrisonItem.PHONE.getNamespace())) {
 
             event.getCursor().setAmount(0);
             Player player = (Player) event.getWhoClicked();
