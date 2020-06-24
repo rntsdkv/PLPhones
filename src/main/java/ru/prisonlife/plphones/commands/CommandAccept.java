@@ -62,7 +62,9 @@ public class CommandAccept implements CommandExecutor {
         }
 
         PrisonLife.getCurrencyManager().reduceMoney(buyer.getInventory(), SIMprices.get(seller));
-        seller.getInventory().addItem((ItemStack) PrisonLife.getCurrencyManager().createMoney(SIMprices.get(seller)));
+        for (ItemStack item : PrisonLife.getCurrencyManager().createMoney(SIMprices.get(seller))) {
+            seller.getInventory().addItem(item);
+        }
         
         Integer sellerPhoneNumber = PrisonLife.getPrisoner(seller).getPhoneNumber();
         Integer buyerPhoneNumber = PrisonLife.getPrisoner(buyer).getPhoneNumber();
