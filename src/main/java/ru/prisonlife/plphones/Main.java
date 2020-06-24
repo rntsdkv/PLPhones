@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitTask;
 import ru.prisonlife.item.PrisonItem;
 import ru.prisonlife.item.PrisonItemBuilder;
 import ru.prisonlife.plphones.commands.*;
-import ru.prisonlife.plphones.events.PayGUIClick;
+import ru.prisonlife.plphones.events.GUIClick;
 import ru.prisonlife.plphones.events.PayGUIClose;
 import ru.prisonlife.plphones.events.PhoneCraft;
 import ru.prisonlife.plugin.PLPlugin;
@@ -67,7 +67,7 @@ public class Main extends PLPlugin {
     private void registerListeners() {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PhoneCraft(this), this);
-        pluginManager.registerEvents(new PayGUIClick(), this);
+        pluginManager.registerEvents(new GUIClick(), this);
         pluginManager.registerEvents(new PayGUIClose(), this);
     }
 

@@ -37,7 +37,7 @@ public class CommandPhone implements CommandExecutor {
         String phoneNumber = prisoner.getPhoneNumber().toString();
         String moneyOnBalance = prisoner.getPhoneMoney().toString();
 
-        player.sendMessage(colorize("&l&9Информация о телефоне:\n&3Номер: &b" + phoneNumber + "\n&3Остаток на балансе: &b" + moneyOnBalance));
+        player.sendMessage(colorize("&l&9Информация о телефоне:\n&3Номер: &b" + phoneNumber + "\n&3Баланс: &b" + moneyOnBalance));
         return true;
     }
 }
