@@ -23,7 +23,8 @@ public class PayGUIClose implements Listener {
 
         if (event.getView().getTitle().equals(ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник")) {
 
-            Integer moneySum = PrisonLife.getCurrencyManager().countMoney(event.getInventory());
+            int moneySum = 0;
+            //Integer moneySum = PrisonLife.getCurrencyManager().countMoney(event.getInventory());
 
             int slotsCount = event.getInventory().getSize();
 
@@ -38,9 +39,23 @@ public class PayGUIClose implements Listener {
 
             for (int i = 0; i < slotsCount; i++) {
 
-                ItemStack item = event.getView().getItem(i);
+                ItemStack item = event.getInventory().getItem(i);
 
-                if (!money.contains(item.getItemMeta().getDisplayName())) {
+                if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_ONE.getNamespace())) {
+                    moneySum += item.getAmount();
+                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_TWO.getNamespace())) {
+                    moneySum += item.getAmount() * 2;
+                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_FIVE.getNamespace())) {
+                    moneySum += item.getAmount() * 5;
+                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_TEN.getNamespace())) {
+                    moneySum += item.getAmount() * 10;
+                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_TWENTY.getNamespace())) {
+                    moneySum += item.getAmount() * 20;
+                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_FIFTY.getNamespace())) {
+                    moneySum += item.getAmount() * 50;
+                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_HUNDRED.getNamespace())) {
+                    moneySum += item.getAmount() * 100;
+                } else {
                     player.getInventory().addItem(item);
                 }
 
