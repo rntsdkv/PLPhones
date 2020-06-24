@@ -29,12 +29,12 @@ public class PhoneCraft implements Listener {
 
     @EventHandler
     public void onCraft(CraftItemEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        Prisoner prisoner = PrisonLife.getPrisoner(player);
 
-        if (event.getCurrentItem().getItemMeta().getDisplayName().equals(PrisonItem.PHONE.getNamespace())) {
+        if (getPhoneFromInventory(player.getInventory()) != null) {
 
-            event.getCursor().setAmount(0);
-            Player player = (Player) event.getWhoClicked();
-            Prisoner prisoner = PrisonLife.getPrisoner(player);
+            clearPhoneAtInventory(player);
 
             if (prisoner.hasPhone()) {
                 player.sendMessage(colorize(plugin.getConfig().getString("messages.alreadyCraftedPhone")));
@@ -45,6 +45,26 @@ public class PhoneCraft implements Listener {
 
         }
 
+    }
+
+
+    private void clearPhoneAtInventory(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        Integer phoneSlot = getPhoneFromInventory(inventory);
+        if (Optional.ofNullable(phoneSlot).isPresent()) inventory.setItem(phoneSlot, null);
+    }
+
+    private Integer getPhoneFromInventory(Inventory inventory) {
+        int size = inventory.getSize();
+
+        for (int i = 0; i < size; i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item == null) continue;
+            ItemMeta meta = item.getItemMeta();
+            if (meta != null && meta.getLocalizedName().equals(PrisonItem.PHONE.getNamespace())) return i;
+        }
+
+        return null;
     }
 
     private int generatePhoneNumber() {

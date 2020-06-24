@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import ru.prisonlife.PrisonLife;
+import ru.prisonlife.Prisoner;
 import ru.prisonlife.plugin.PLPlugin;
 
 import static ru.prisonlife.plphones.Main.*;
@@ -65,16 +66,25 @@ public class CommandAccept implements CommandExecutor {
         for (ItemStack item : PrisonLife.getCurrencyManager().createMoney(SIMprices.get(seller))) {
             seller.getInventory().addItem(item);
         }
-        
-        Integer sellerPhoneNumber = PrisonLife.getPrisoner(seller).getPhoneNumber();
-        Integer buyerPhoneNumber = PrisonLife.getPrisoner(buyer).getPhoneNumber();
-        Integer sellerPhoneMoney = PrisonLife.getPrisoner(seller).getPhoneMoney();
-        Integer buyerPhoneMoney = PrisonLife.getPrisoner(buyer).getPhoneMoney();
 
-        PrisonLife.getPrisoner(seller).setPhoneNumber(buyerPhoneNumber);
-        PrisonLife.getPrisoner(buyer).setPhoneNumber(sellerPhoneNumber);
-        PrisonLife.getPrisoner(seller).setPhoneMoney(buyerPhoneMoney);
-        PrisonLife.getPrisoner(buyer).setPhoneMoney(sellerPhoneMoney);
+        Prisoner sellerPrisoner = PrisonLife.getPrisoner(seller);
+        Prisoner buyerPrisoner = PrisonLife.getPrisoner(seller);
+
+        
+        Integer sellerPhoneNumber = sellerPrisoner.getPhoneNumber();
+        Integer buyerPhoneNumber = buyerPrisoner.getPhoneNumber();
+
+        Integer sellerPhoneMoney = sellerPrisoner.getPhoneMoney();
+        Integer buyerPhoneMoney = buyerPrisoner.getPhoneMoney();
+
+        sellerPrisoner.setPhoneNumber(buyerPhoneNumber);
+        buyerPrisoner.setPhoneNumber(sellerPhoneNumber);
+
+        sellerPrisoner.setPhoneMoney(buyerPhoneMoney);
+        buyerPrisoner.setPhoneMoney(sellerPhoneMoney);
+
+        seller.sendMessage(colorize(plugin.getConfig().getString("messages.phoneSell").replace("%player%", buyer.getName()).replace("%phone%", sellerPhoneNumber.toString())));
+        buyer.sendMessage(colorize(plugin.getConfig().getString("messages.phoneSell").replace("%player%", seller.getName()).replace("%phone%", buyerPhoneNumber.toString())));
 
         SIMsellers.remove(seller);
         SIMprices.remove(seller);

@@ -18,6 +18,7 @@ messages:
   shouldGoFuck: "&l&6Похоже, здесь плохая связь, МТС подвёл :(\nПопробуйте отойти в другое место..."
   notEnoughSlots: "&l&6У вас недостаточно места в карманах! Очистите их и предложите продажу снова!"
   sellWasCancelled: "&l&6Покупка была отменена!"
+  phoneSell: "&l&6Вы обменялись телефонами с игроком %player%\nНовый номер: %phone%"
 settings:
   messagePrice: 1
   sellTimeInSec: 30
