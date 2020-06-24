@@ -6,15 +6,24 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import ru.prisonlife.PrisonLife;
 import ru.prisonlife.Prisoner;
 import ru.prisonlife.item.PrisonItem;
+import ru.prisonlife.plugin.PLPlugin;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static ru.prisonlife.plphones.Main.colorize;
 
 public class PayGUIClose implements Listener {
+
+    private PLPlugin plugin;
+    public PayGUIClose(PLPlugin main) {
+        this.plugin = main;
+        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) this);
+    }
 
     @EventHandler
     public void onClosed(InventoryCloseEvent event) {
@@ -64,7 +73,7 @@ public class PayGUIClose implements Listener {
             prisoner.setPhoneMoney(prisoner.getPhoneMoney() + moneySum);
 
             if (moneySum != 0) {
-                player.sendMessage(colorize("&l&6Вы пополнили баланс на " + moneySum + "$\nБаланс: " + prisoner.getPhoneMoney().toString()));
+                player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneMoneyAdd").replace("%money%", String.valueOf(moneySum)).replace("%balance%", prisoner.getPhoneMoney().toString())));
             }
         }
     }
