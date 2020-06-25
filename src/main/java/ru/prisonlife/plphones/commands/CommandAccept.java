@@ -51,20 +51,22 @@ public class CommandAccept implements CommandExecutor {
             return true;
         }
 
-        if (PrisonLife.getCurrencyManager().countMoney(buyer.getInventory()) < SIMprices.get(seller)) {
-            buyer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughMoneyReal")));
-            return true;
-        }
+        if (SIMprices.get(seller) != 0) {
+            if (PrisonLife.getCurrencyManager().countMoney(buyer.getInventory()) < SIMprices.get(seller)) {
+                buyer.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughMoneyReal")));
+                return true;
+            }
 
-        if (!PrisonLife.getCurrencyManager().canPuttedMoney(seller.getInventory(), SIMprices.get(seller))) {
-            seller.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughSlots")));
-            buyer.sendMessage(colorize(plugin.getConfig().getString("messages.sellWasCancelled")));
-            return true;
-        }
+            if (!PrisonLife.getCurrencyManager().canPuttedMoney(seller.getInventory(), SIMprices.get(seller))) {
+                seller.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughSlots")));
+                buyer.sendMessage(colorize(plugin.getConfig().getString("messages.sellWasCancelled")));
+                return true;
+            }
 
-        PrisonLife.getCurrencyManager().reduceMoney(buyer.getInventory(), SIMprices.get(seller));
-        for (ItemStack item : PrisonLife.getCurrencyManager().createMoney(SIMprices.get(seller))) {
-            seller.getInventory().addItem(item);
+            PrisonLife.getCurrencyManager().reduceMoney(buyer.getInventory(), SIMprices.get(seller));
+            for (ItemStack item : PrisonLife.getCurrencyManager().createMoney(SIMprices.get(seller))) {
+                seller.getInventory().addItem(item);
+            }
         }
 
         Prisoner sellerPrisoner = PrisonLife.getPrisoner(seller);

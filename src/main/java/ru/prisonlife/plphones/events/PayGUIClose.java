@@ -1,10 +1,12 @@
 package ru.prisonlife.plphones.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import ru.prisonlife.PrisonLife;
@@ -31,8 +33,7 @@ public class PayGUIClose implements Listener {
 
         if (event.getView().getTitle().equals(ChatColor.BOLD + "" + ChatColor.GRAY + "Обменник")) {
 
-            int moneySum = 0;
-            //Integer moneySum = PrisonLife.getCurrencyManager().countMoney(event.getInventory());
+            Integer moneySum = PrisonLife.getCurrencyManager().countMoney(event.getInventory());
 
             int slotsCount = event.getInventory().getSize();
 
@@ -45,34 +46,27 @@ public class PayGUIClose implements Listener {
             money.add(PrisonItem.DOLLAR_FIFTY.getNamespace());
             money.add(PrisonItem.DOLLAR_HUNDRED.getNamespace());
 
+            Inventory inventory = event.getInventory();
+
             for (int i = 0; i < slotsCount; i++) {
 
-                ItemStack item = event.getInventory().getItem(i);
+                ItemStack item = inventory.getItem(i);
 
-                if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_ONE.getNamespace())) {
-                    moneySum += item.getAmount();
-                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_TWO.getNamespace())) {
-                    moneySum += item.getAmount() * 2;
-                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_FIVE.getNamespace())) {
-                    moneySum += item.getAmount() * 5;
-                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_TEN.getNamespace())) {
-                    moneySum += item.getAmount() * 10;
-                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_TWENTY.getNamespace())) {
-                    moneySum += item.getAmount() * 20;
-                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_FIFTY.getNamespace())) {
-                    moneySum += item.getAmount() * 50;
-                } else if (item.getItemMeta().getDisplayName().equals(PrisonItem.DOLLAR_HUNDRED.getNamespace())) {
-                    moneySum += item.getAmount() * 100;
+                if (money.contains(item.getItemMeta().getLocalizedName())) {
+                    continue;
                 } else {
                     player.getInventory().addItem(item);
                 }
 
             }
 
-            prisoner.setPhoneMoney(prisoner.getPhoneMoney() + moneySum);
+            Bukkit.broadcastMessage(String.valueOf(moneySum));
+            Bukkit.broadcastMessage("1");
 
             if (moneySum != 0) {
-                player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneMoneyAdd").replace("%money%", String.valueOf(moneySum)).replace("%balance%", prisoner.getPhoneMoney().toString())));
+                Bukkit.broadcastMessage("2");
+                prisoner.setPhoneMoney(prisoner.getPhoneMoney() + moneySum);
+                player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneMoneyAdd").replace("%money%", moneySum.toString()).replace("%balance%", prisoner.getPhoneMoney().toString())));
             }
         }
     }

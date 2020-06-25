@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.prisonlife.PrisonLife;
@@ -26,8 +27,9 @@ public class CommandSellSIM implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        FileConfiguration config = plugin.getConfig();
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(plugin.getConfig().getString("messages.wrongSender"));
+            commandSender.sendMessage(config.getString("messages.wrongSender"));
             return true;
         }
 
@@ -35,12 +37,12 @@ public class CommandSellSIM implements CommandExecutor {
         Prisoner prisoner = PrisonLife.getPrisoner(player);
 
         if (strings.length != 2) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.notEnoughArguments")));
+            player.sendMessage(colorize(config.getString("messages.notEnoughArguments")));
             return false;
         }
 
         if (!prisoner.hasPhone()) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.notPhone")));
+            player.sendMessage(colorize(config.getString("messages.notPhone")));
             return true;
         }
 
@@ -48,17 +50,17 @@ public class CommandSellSIM implements CommandExecutor {
         Prisoner addresseePrisoner = PrisonLife.getPrisoner(addressee);
 
         if (addressee == null) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.notPlayer")));
+            player.sendMessage(colorize(config.getString("messages.notPlayer")));
             return true;
         }
 
         if (!addresseePrisoner.hasPhone()) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.playerHasNotGotPhone")));
+            player.sendMessage(colorize(config.getString("messages.playerHasNotGotPhone")));
             return true;
         }
 
         if (SIMsellers.containsKey(player)) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.alreadySendAccept")));
+            player.sendMessage(colorize(config.getString("messages.alreadySendAccept")));
             return true;
         }
 
@@ -66,8 +68,13 @@ public class CommandSellSIM implements CommandExecutor {
         try {
             price = Integer.parseInt(strings[1]);
         } catch (NumberFormatException e) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.notNumberAble")));
+            player.sendMessage(colorize(config.getString("messages.notNumberAble")));
             return false;
+        }
+
+        if (price < 0) {
+            player.sendMessage(colorize(config.getString("messages.notNumberAble")));
+            return true;
         }
 
         sendAccept(player, addressee, price);
