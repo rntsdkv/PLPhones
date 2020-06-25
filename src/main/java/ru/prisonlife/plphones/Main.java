@@ -68,7 +68,7 @@ public class Main extends PLPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PhoneCraft(this), this);
         pluginManager.registerEvents(new GUIClick(), this);
-        new PayGUIClose(this);
+        pluginManager.registerEvents(new PayGUIClose(this), this);
     }
 
     private void copyConfigFile() {

@@ -22,7 +22,6 @@ public class PayGUIClose implements Listener {
     private PLPlugin plugin;
     public PayGUIClose(PLPlugin main) {
         this.plugin = main;
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) this);
     }
 
     @EventHandler

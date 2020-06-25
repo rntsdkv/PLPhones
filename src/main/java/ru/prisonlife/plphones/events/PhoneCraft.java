@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -28,10 +30,21 @@ public class PhoneCraft implements Listener {
     }
 
     @EventHandler
-    public void onCraft(CraftItemEvent event) {
+    public void onCraft(InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
         Prisoner prisoner = PrisonLife.getPrisoner(player);
 
+        if (event.getCursor().getItemMeta().getDisplayName().equals(PrisonItem.PHONE.getNamespace())) {
+            event.getCursor().setAmount(0);
+
+            if (prisoner.hasPhone()) {
+                player.sendMessage(colorize(plugin.getConfig().getString("messages.alreadyCraftedPhone")));
+            } else {
+                prisoner.setPhoneNumber(generatePhoneNumber());
+                player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneCraft")));
+            }
+        }
+        /*
         if (getPhoneFromInventory(player.getInventory()) != null) {
 
             clearPhoneAtInventory(player);
@@ -44,6 +57,7 @@ public class PhoneCraft implements Listener {
             }
 
         }
+        */
 
     }
 
@@ -59,8 +73,11 @@ public class PhoneCraft implements Listener {
 
         for (int i = 0; i < size; i++) {
             ItemStack item = inventory.getItem(i);
+
             if (item == null) continue;
+
             ItemMeta meta = item.getItemMeta();
+
             if (meta != null && meta.getLocalizedName().equals(PrisonItem.PHONE.getNamespace())) return i;
         }
 
