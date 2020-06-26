@@ -49,8 +49,13 @@ public class CommandSellSIM implements CommandExecutor {
         Player addressee = Bukkit.getPlayer(strings[0]);
         Prisoner addresseePrisoner = PrisonLife.getPrisoner(addressee);
 
-        if (addressee == null) {
-            player.sendMessage(colorize(config.getString("messages.notPlayer")));
+        if (!addressee.isOnline()) {
+            player.sendMessage(colorize(config.getString("messages.notPlayerOnline")));
+            return true;
+        }
+
+        if (addressee == player) {
+            player.sendMessage(colorize(config.getString("messages.canNotSellSimYourself")));
             return true;
         }
 

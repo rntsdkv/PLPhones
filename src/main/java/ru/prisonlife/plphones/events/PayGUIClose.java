@@ -52,21 +52,19 @@ public class PayGUIClose implements Listener {
 
                 ItemStack item = inventory.getItem(i);
 
-                if (money.contains(item.getItemMeta().getLocalizedName())) {
-                    continue;
-                } else {
-                    player.getInventory().addItem(item);
+                if (item != null) {
+                    if (money.contains(item.getItemMeta().getLocalizedName())) {
+                        continue;
+                    } else {
+                        player.getInventory().addItem(item);
+                    }
                 }
 
             }
 
-            Bukkit.broadcastMessage(String.valueOf(moneySum));
-            Bukkit.broadcastMessage("1");
-
             if (moneySum != 0) {
-                Bukkit.broadcastMessage("2");
                 prisoner.setPhoneMoney(prisoner.getPhoneMoney() + moneySum);
-                player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneMoneyAdd").replace("%money%", moneySum.toString()).replace("%balance%", prisoner.getPhoneMoney().toString())));
+                player.sendMessage(colorize(plugin.getConfig().getString("messages.phoneMoneyAdd")));
             }
         }
     }

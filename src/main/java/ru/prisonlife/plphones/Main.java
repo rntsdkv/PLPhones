@@ -11,6 +11,7 @@ import ru.prisonlife.item.PrisonItemBuilder;
 import ru.prisonlife.plphones.commands.*;
 import ru.prisonlife.plphones.events.GUIClickListener;
 import ru.prisonlife.plphones.events.PayGUIClose;
+import ru.prisonlife.plphones.events.PhoneCraft;
 import ru.prisonlife.plugin.PLPlugin;
 import ru.prisonlife.util.Pair;
 import java.io.File;
@@ -65,8 +66,7 @@ public class Main extends PLPlugin {
 
     private void registerListeners() {
         PluginManager pluginManager = getServer().getPluginManager();
-        //pluginManager.registerEvents(new PhoneCraft(this), this);
-        //pluginManager.registerEvents(new GUIClick(), this);
+        pluginManager.registerEvents(new PhoneCraft(this), this);
         pluginManager.registerEvents(new PayGUIClose(this), this);
         pluginManager.registerEvents(new GUIClickListener(this), this);
     }

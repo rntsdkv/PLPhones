@@ -19,7 +19,9 @@ messages:
   notEnoughSlots: "&l&6У вас недостаточно места в карманах! Очистите их и предложите продажу снова!"
   sellWasCancelled: "&l&6Покупка была отменена!"
   phoneSell: "&l&6Вы обменялись телефонами с игроком %player%\nНовый номер: %phone%"
-  phoneMoneyAdd: "&l&6Вы пополнили баланс на %money%$\Баланс: %balance%$"
+  phoneMoneyAdd: "&l&6Вы пополнили баланс телефона!"
+  canNotSendMessageYourself: "&l&6Нельзя отправлять сообщения самому себе!"
+  canNotSellSimYourself: "&l&6Нельзя продать сим-карту самому себе!"
 settings:
   messagePrice: 1
   sellTimeInSec: 30

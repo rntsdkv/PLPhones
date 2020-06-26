@@ -57,6 +57,12 @@ public class CommandSMS implements CommandExecutor {
         }
 
         Prisoner receiverPrisoner = PrisonLife.getPrisoner(phoneEntity.getAccountNumber());
+
+        if (receiverPhoneNumber.equals(prisoner.getPhoneNumber())) {
+            player.sendMessage(colorize(plugin.getConfig().getString("messages.canNotSendMessageYourself")));
+            return true;
+        }
+
         String message = getMessage(strings);
 
         if (!checkBalance(prisoner)) {
@@ -64,15 +70,11 @@ public class CommandSMS implements CommandExecutor {
             return true;
         }
 
-        if (checkHindrance(player)) {
+        if (checkHindrance(player) || newHindrance(player)) {
             player.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
             return true;
         }
 
-        if (newHindrance(player)) {
-            player.sendMessage(colorize(plugin.getConfig().getString("messages.shouldGoFuck")));
-            return true;
-        }
         prisoner.setPhoneMoney(prisoner.getPhoneMoney() - Integer.parseInt(plugin.getConfig().getString("settings.messagePrice")));
 
         player.sendMessage(colorize("&l&7" + "SMS | Вы: &r" + message + "&l&7 | Получатель: " + receiverPrisoner.getName() + " " + receiverPhoneNumber.toString()));
