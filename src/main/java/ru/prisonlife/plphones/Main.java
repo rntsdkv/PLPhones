@@ -40,15 +40,11 @@ public class Main extends PLPlugin {
     public static BukkitTask task;
 
     @Override
-    public void onCreate() {
+    public void onEnable() {
         copyConfigFile();
         ItemStack itemPhone = new PrisonItemBuilder().setPrisonItem(PrisonItem.PHONE).build();
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
         Bukkit.addRecipe(phoneRecipe);
-    }
-
-    @Override
-    public void onEnable() {
         super.onEnable();
         registerCommands();
         registerListeners();
