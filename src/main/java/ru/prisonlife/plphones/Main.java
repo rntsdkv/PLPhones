@@ -13,7 +13,8 @@ import ru.prisonlife.plphones.events.GUIClickListener;
 import ru.prisonlife.plphones.events.PayGUIClose;
 import ru.prisonlife.plphones.events.PhoneCraft;
 import ru.prisonlife.plugin.PLPlugin;
-import ru.prisonlife.util.Pair;
+import ru.prisonlife.plugin.PromisedPluginFile;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,25 +23,28 @@ import java.util.Map;
 
 public class Main extends PLPlugin {
 
+    public static Map<Player, Player> SIMsellers = new HashMap<>();
+
+    public static Map<Player, Integer> SIMprices = new HashMap<>();
+    public static Map<Location, Player> hindrancesPlayers = new HashMap<>();
+
+    public static Map<Location, Integer> hindrancesRadius = new HashMap<>();
+    public static Map<Location, Integer> hindrancesSeconds = new HashMap<>();
+    public static BukkitTask task;
+
+    @Override
     public String getPluginName() {
         return "PLPhones";
     }
 
-    public List<Pair<String, Object>> initPluginFiles() {
+    @Override
+    public List<PromisedPluginFile> initPluginFiles() {
         return new ArrayList<>();
     }
 
-    public static Map<Player, Player> SIMsellers = new HashMap<>();
-    public static Map<Player, Integer> SIMprices = new HashMap<>();
-
-    public static Map<Location, Player> hindrancesPlayers = new HashMap<>();
-    public static Map<Location, Integer> hindrancesRadius = new HashMap<>();
-    public static Map<Location, Integer> hindrancesSeconds = new HashMap<>();
-
-    public static BukkitTask task;
-
     @Override
     public void onEnable() {
+        super.onEnable();
         copyConfigFile();
         ItemStack itemPhone = new PrisonItemBuilder().setPrisonItem(PrisonItem.PHONE).build();
         ShapedRecipe phoneRecipe = setCraft(itemPhone);
